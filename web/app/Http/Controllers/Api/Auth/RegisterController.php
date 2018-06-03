@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
-use App\User;
+namespace TiffinService\Http\Controllers\Api\Auth;
+use TiffinService\User;
+use TiffinService\TiffinSeeker;
+use TiffinService\HomeMaker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Controller;
+use TiffinService\Http\Controllers\Controller;
 use Laravel\Passport\Client;
 
 class RegisterController extends Controller
@@ -22,19 +24,45 @@ class RegisterController extends Controller
     {
 
 
-    	$this->validate($request,[
-    		
-    		'email' => 'required|email|unique:users,email',
-    		'password' => 'required|min:6|confirmed'
+        	$this->validate($request,[
+        		
+        		'email' => 'required|email|unique:users,email',
+        		'password' => 'required|min:6|confirmed'
 
-    		]);
+        		]);
 
-    	$user = User::create([
-    		
-    		'email' => request('email'),
-    		'password' => bcrypt(request('password')),
+        	$user = User::create([
+        		
+        		'email' => request('email'),
+        		'password' => bcrypt(request('password')),
+                'token' => str_random(25),
 
-    		]);
+        		]);
+
+
+            if(request('UserType') == 0){ // check if user is tiffinseeker
+                
+                $tiffin_seeker = TiffinSeeker::create([
+                
+                'UserId' => $user->id,       
+
+            ]);
+
+
+            }
+            else if (request('UserType') == 1){ // check if user is homemaker
+
+                $home_maker = HomeMaker::create([
+                
+                'UserId' => $user->id,       
+
+            ]);
+
+
+        }  
+
+
+
 
     	$params = [
     		'grant_type' => 'password',
@@ -48,6 +76,9 @@ class RegisterController extends Controller
 
     	$request->request->add($params);
     	$proxy = Request::create('oauth/token','POST');
+
+        $user->sendVerificationEmail();
+
     	return Route::dispatch($proxy);
 
 
