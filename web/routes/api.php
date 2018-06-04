@@ -23,6 +23,10 @@ Route::middleware('auth:api')->group(function(){
 
 		Route::post('logout', 'Api\Auth\LoginController@logout');
 		Route::post('posts', 'Api\Auth\LoginController@refresh');
+		Route::post('tiffinseekerprofile', 'Api\UserProfileController@tiffinSeekercreate');
+
+		Route::get('tiffinseekerprofileview', 'Api\UserProfileController@tiffinseekerprofileview');
+
 
 
 
