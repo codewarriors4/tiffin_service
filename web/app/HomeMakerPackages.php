@@ -3,18 +3,24 @@
 namespace TiffinService;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class HomeMaker extends Model
+class HomeMakerPackages extends Model
 {
     
-	 protected $table = 'homemaker';
+  
+	protected $softDelete = true;
+
+    protected $dates = ['deleted_at'];
+
+    protected $table = 'homemakerpackages';
       /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'UserId','HMFoodLicense','HMLicenseExpiryDate','HMMaxSubscCount'
+        'HMPName','HMPDesc','HMPCost','HomeMakerId',
     ];
 
     /**

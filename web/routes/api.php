@@ -28,9 +28,28 @@ Route::get('verify/{token}','Api\VerifyController@verify')->name('verify');
 
 Route::middleware('auth:api')->group(function(){
 
-		
+
 		Route::post('logout', 'Api\Auth\LoginController@logout');
 		Route::post('posts', 'Api\Auth\LoginController@refresh');
+
+		/*Homemaker Package*/
+
+		Route::post('createmenu', 'Api\HomeMakerPackagesController@HMPCreate')->name('createmenu');
+		Route::post('updatemenu', 'Api\HomeMakerPackagesController@HMPUpdate')->name('updatemenu');
+		Route::post('deletemenu', 'Api\HomeMakerPackagesController@HMPDelete')->name('deletemenu'); //requires to pass HMPId as request
+
+		/* TiffinSeeker Search Homemaker */
+		Route::post('gethomemakers', 'Api\HomeMakerPackagesController@HMPDelete')->name('deletemenu'); //requires to pass HMPId as request
+
+
+
+
+
+
+
+
+
+
 
 
 
