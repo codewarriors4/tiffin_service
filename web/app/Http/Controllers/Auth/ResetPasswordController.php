@@ -3,8 +3,10 @@
 namespace TiffinService\Http\Controllers\Auth;
 
 use TiffinService\Http\Controllers\Controller;
+use TiffinService\Transformers\Json;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 class ResetPasswordController extends Controller
 {
     /*
@@ -16,17 +18,8 @@ class ResetPasswordController extends Controller
     | and uses a simple trait to include this behavior. You're free to
     | explore this trait and override any methods you wish to tweak.
     |
-    */
-
-    use ResetsPasswords;
-
-    /**
-     * Where to redirect users after resetting their password.
-     *
-     * @var string
      */
-    protected $redirectTo = '/home';
-
+    use ResetsPasswords;
     /**
      * Create a new controller instance.
      *
@@ -36,4 +29,18 @@ class ResetPasswordController extends Controller
     {
         $this->middleware('guest');
     }
+
+    public function showResetForm(Request $request, $token = null)
+    {
+        return view('auth.passwords.reset')->with(
+            ['token' => $token, 'email' => $request->email]
+        );
+    }
+    /**
+     * Reset the given user's password.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
 }

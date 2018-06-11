@@ -26,6 +26,15 @@ Route::post('refresh', 'Api\Auth\LoginController@refresh');
 
 Route::get('verify/{token}','Api\VerifyController@verify')->name('verify');
 
+Route::post('password/email', 'Api\Auth\ForgotPasswordController@getResetToken');
+Route::post('/UserPasswordReset','Api\Auth\ForgotPasswordController@sendResetLink');
+
+
+//Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+
+
+
 Route::middleware('auth:api')->group(function(){
 
 

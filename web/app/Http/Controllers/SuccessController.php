@@ -4,7 +4,7 @@ namespace TiffinService\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class HomeController extends Controller
+class SuccessController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -21,22 +21,15 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
 
-        public function index()
+        public function resetdone()
     {
-        //dd('zxczxczxc');
+       
+        dd('asdasdasd');
 
-         if(\Auth::check()){
-           // dd('yes');
-            \Auth::logout();
-         }     
-
-      
-         return redirect('/resetdone');
-        
-
-       // return view('home');
+        //return view('home');
     }
 
-
+    
 }
