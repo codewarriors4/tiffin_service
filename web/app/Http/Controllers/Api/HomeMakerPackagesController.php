@@ -12,7 +12,9 @@ class HomeMakerPackagesController extends Controller
 
 	public function HMPCreate(Request $request){    
 
-		$user_id = \Auth::user()->id;
+		try{
+
+			$user_id = \Auth::user()->id;
 
     	    $this->validate($request,[
         		
@@ -36,13 +38,25 @@ class HomeMakerPackagesController extends Controller
 
         	return response()->json(['status'=>'success'],200);
 
+		}
+		catch(\Exception $e){
+
+			return response()->json(['status'=>'failed'],203);
+
+
+		}
+		
+
         	
 
     }
 
-    public function HMPUpdate(Request $request){    
+    public function HMPUpdate(Request $request){  
 
-		$user_id = \Auth::user()->id;
+
+    try {
+
+    	$user_id = \Auth::user()->id;
 
 		$home_maker = HomeMaker::where('UserId',$user_id)->firstOrFail();
 
@@ -57,13 +71,25 @@ class HomeMakerPackagesController extends Controller
     	HomeMakerPackages::where('HomeMakerId',$home_maker->HMId)->update(['HMPName' => request('HMPName'),'HMPDesc' => request('HMPDesc'),'HMPCost' => request('HMPCost')]);
 
        return response()->json(['status'=>'success'],200);
+      	
+      } catch (\Exception $e) {
+
+      return response()->json(['status'=>'failed'],203);
+
+      	
+      }  
+
+		
 
     }
 
 
-        public function HMPDelete(Request $request){    
+        public function HMPDelete(Request $request){   
 
-		$user_id = \Auth::user()->id;
+
+        try {
+
+        $user_id = \Auth::user()->id;
 
 		$home_maker = HomeMaker::where('UserId',$user_id)->firstOrFail();   
 
@@ -71,6 +97,15 @@ class HomeMakerPackagesController extends Controller
 
        return response()->json(['status'=>'success'],200);
 
+         	
+         } catch (Exception $e) {
+
+         	return response()->json(['status'=>'failed'],203);
+
+         	
+         } 
+
+	
     }
 
 

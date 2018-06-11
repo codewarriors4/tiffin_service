@@ -39,7 +39,7 @@ Route::middleware('auth:api')->group(function(){
 		Route::post('deletemenu', 'Api\HomeMakerPackagesController@HMPDelete')->name('deletemenu'); //requires to pass HMPId as request
 
 		/* TiffinSeeker Search Homemaker */
-		Route::post('gethomemakers', 'Api\HomeMakerPackagesController@HMPDelete')->name('deletemenu'); //requires to pass HMPId as request
+		Route::post('gethomemakers', 'Api\HomeMakerSearchController@HMSearch')->name('gethomemakers'); //requires to pass HMPId as request
 
 
 
