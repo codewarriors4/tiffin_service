@@ -1,6 +1,7 @@
 <?php
 
 namespace TiffinService\Http\Controllers\Api\Auth;
+use TiffinService\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,21 @@ class LoginController extends Controller
     		'password' => 'required'
 
     		]);
+
+        $user = User::where('email',request('email'))->first();
+
+       
+
+        if($user->count() > 0){
+
+            if($user->isEmailVerified == 0){
+
+                return response()->json(['error','Email not verified'],201);
+            }
+
+        }
+
+
 
     	$params = [
     		'grant_type' => 'password',
