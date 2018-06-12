@@ -27,7 +27,8 @@ class RegisterController extends Controller
         	$this->validate($request,[
         		
         		'email' => 'required|email|unique:users,email',
-        		'password' => 'required|min:6|confirmed'
+        		'password' => 'required|min:6|confirmed',
+                'UserType' =>'required'
 
         		]);
 
@@ -36,6 +37,7 @@ class RegisterController extends Controller
         		'email' => request('email'),
         		'password' => bcrypt(request('password')),
                 'token' => str_random(25),
+                'UserType' => request('UserType')
 
         		]);
 
