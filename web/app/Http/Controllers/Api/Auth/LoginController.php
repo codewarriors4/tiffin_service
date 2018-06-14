@@ -30,18 +30,21 @@ class LoginController extends Controller
     		]);
 
         $user = User::where('email',request('email'))->first();
-
        
-
+        if($user!=null){
         if($user->count() > 0){
 
             if($user->isEmailVerified == 0){
 
-                return response()->json(['error','Email not verified'],201);
+                $json_array = array('error'=>'Email not verified');
+
+                
+
+                return response()->json($json_array,201);
             }
 
         }
-
+    }
 
 
     	$params = [
