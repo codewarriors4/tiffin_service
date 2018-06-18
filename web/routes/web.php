@@ -12,5 +12,28 @@
 */
 
 Route::get('/', function () {
+
+	\Auth::logout();
     return view('welcome');
 });
+
+//Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/resetdone', function () {
+
+	return view('resetdoneview');
+});
+Auth::routes();
+
+Route::get('login', function () {
+
+
+
+	\Auth::logout();
+    return view('welcome');
+});
+
+
+
+

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api\Auth;
+namespace TiffinService\Http\Controllers\Api\Auth;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Client;
-use App\Http\Controllers\Controller;
+use TiffinService\Http\Controllers\Controller;
 
 class LoginController extends Controller
 {

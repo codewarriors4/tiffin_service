@@ -1,0 +1,29 @@
+<?php
+
+namespace TiffinService;
+
+use Illuminate\Database\Eloquent\Model;
+
+class TiffinSeeker extends Model
+{
+
+
+	 protected $table = 'tiffinseeker';
+      /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'UserId',
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+      
+    ];
+}
