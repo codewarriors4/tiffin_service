@@ -58,7 +58,7 @@ class HomeMakerPackagesController extends Controller
 
     	$user_id = \Auth::user()->id;
 
-		$home_maker = HomeMaker::where('UserId',$user_id)->firstOrFail();
+    	$homemaker_package_id = request('HMPId');
 
     	    $this->validate($request,[
         		
@@ -68,11 +68,12 @@ class HomeMakerPackagesController extends Controller
         		]);
 
 
-    	HomeMakerPackages::where('HomeMakerId',$home_maker->HMId)->update(['HMPName' => request('HMPName'),'HMPDesc' => request('HMPDesc'),'HMPCost' => request('HMPCost')]);
+    	HomeMakerPackages::where('HMPId',$homemaker_package_id)->update(['HMPName' => request('HMPName'),'HMPDesc' => request('HMPDesc'),'HMPCost' => request('HMPCost')]);
 
        return response()->json(['status'=>'success'],200);
       	
       } catch (\Exception $e) {
+      	dd($e);
 
       return response()->json(['status'=>'failed'],203);
 
@@ -103,10 +104,60 @@ class HomeMakerPackagesController extends Controller
          	return response()->json(['status'=>'failed'],203);
 
          	
-         } 
+        } 
 
 	
     }
+
+    	
+
+    	//Homekar View own packages 
+    	public function HMPMyPackages(Request $request){
+
+    		try{
+
+    		$user_id = \Auth::user()->id;    		
+    		
+
+    		$home_maker_packages = HomeMaker::join('users','users.id','=','homemaker.UserId')
+    		->join('homemakerpackages','homemaker.HMId','=','homemakerpackages.HomeMakerId')->where('id',$user_id)->get();
+
+
+
+    		return response()->json(['home_maker_packages'=>$home_maker_packages],200); 
+
+    		}
+    		catch(Exception $e){
+
+    			return response()->json(['status'=>'failed'],203);
+
+    		}
+
+    	}
+
+    	//Tiffinseekers views a homemaker pakage
+
+    	public function HMPListings(Request $request){
+
+    		try{
+
+    		$homemaker_id =request('HMId');
+
+    		$home_maker_packages = HomeMaker::join('homemakerpackages','homemaker.HMId','=','homemakerpackages.HomeMakerId')->where('HMId',$homemaker_id)->get();
+
+
+    		return response()->json(['home_maker_packages'=>$home_maker_packages],200); 
+
+    		}
+    		catch(Exception $e){
+
+    			return response()->json(['status'=>'failed'],203);
+
+    		}
+
+
+    	}
+
 
 
 }
