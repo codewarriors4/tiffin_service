@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace TiffinService\Http\Controllers\Api;
 
+use TiffinService\HomeMaker;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\User;
+use TiffinService\Http\Controllers\Controller;
+use TiffinService\User;
 
 class UserProfileController extends Controller
 {
@@ -49,7 +50,7 @@ class UserProfileController extends Controller
     		return('yes');
     	}
     	else{
-    		dd('no');
+    		
     	}
 
     	return response()->json(['status'=>'amit_good'],200);
@@ -81,34 +82,31 @@ class UserProfileController extends Controller
 
 	public function homemakerprofilecreate(Request $request)
 	{
+		try {
+			
+		
 		$authid = \Auth::user()->id;
 		if($request->hasFile('file')){
 
     		#$dir=.$request->user()->id;
     		$request->file->storeAs('public/upload/'.$request->user()->id,'license'.'.'.$request->file->getClientOriginalExtension());
-    		$image='license'.'.'.$request->file->getClientOriginalExtension();
+    		$image='license.'.$request->file->getClientOriginalExtension();
 
-    		$homemaker=HomeMaker::where('UserId'=>$authid)->update(['HMFoodLicense' => $image]);
-    		#$homemaker->UserId=request($authid);
-    		#$temp='public/upload/'.$request->user()->id;
-    		#$homemaker->HMFoodLicense=request($temp);
-    		#$homemaker->save();
-    		#tiffin_service::table('homemaker')->insert(['UserId'=>'authid','HMFoodLicense'=>$request->file->getClientOriginalName()]);
-    	return('yes');
+    		$homemaker = HomeMaker::where('UserId',$authid)->update(['HMFoodLicense' => $image]);
+
     	}
     	else{
 
-    		$homemaker=HomeMaker::find('UserId'=>$authid)=>get();
 
-    		if($homemaker->HMFoodLicense==null){
-    			
+    		$homemaker=HomeMaker::where('UserId',$authid)->first();
+
+	    		if(($homemaker->HMFoodLicense) == null || ($homemaker->HMFoodLicense) == ''){
     			 $this->validate($request,[
         		'HMFoodLicense' => 'required',
         		]);
 				}
 
     	}
-
  $this->validate($request,[
         		
         		'UserFname' => 'required',
@@ -135,18 +133,26 @@ class UserProfileController extends Controller
     	$users->UserPhone=request('UserPhone');
     	$users->UserCompanyName=request('UserCompanyName');
     	$users->save();
+		
+		return response()->json(['status'=>'amit_good'],200);
 
-    	
-
-
+    	} catch (Exception $e) {
+			return response()->json(['status'=>'amit_suks'],203);
+		}
 	}
 
 	public function homemakerprofileview()
 	{
+		try {
+			
+		
 		$authid = \Auth::user()->id;
 		$users=User::find($authid);
 		return response()->json($users,200);
 		#return response()->json(['name' => 'ok'],200);
+	} catch (Exception $e) {
+			return response()->json(['status'=>'amit_suks'],203);
+		}
 	}
 }
 

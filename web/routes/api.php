@@ -50,8 +50,8 @@ Route::middleware('auth:api')->group(function(){
 		Route::get('tiffinseekerprofileview', 'Api\UserProfileController@tiffinseekerprofileview');
 
 		
-		Route::post('homemakerprofile','API\UserProfileController@homemakerprofilecreate');
-		Route::post('homemakerprofileview','API\UserProfileController@homemakerprofileview');
+		Route::post('homemakerprofile','Api\UserProfileController@homemakerprofilecreate');
+		Route::post('homemakerprofileview','Api\UserProfileController@homemakerprofileview');
 		
 
 
