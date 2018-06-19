@@ -36,4 +36,9 @@ class User extends Authenticatable
     public function sendVerificationEmail(){
          $this->notify(new VerifyEmail($this));
     }
+
+    public function homemaker()
+    {
+        return $this->hasOne('TiffinService\HomeMaker','UserId','id');
+    }
 }

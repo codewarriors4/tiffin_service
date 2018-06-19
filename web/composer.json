@@ -7,10 +7,13 @@
     "require": {
         "php": ">=7.0.0",
         "fideloper/proxy": "~3.3",
+        "gloudemans/shoppingcart": "^2.5",
         "guzzlehttp/guzzle": "~6.0",
+        "laravel-validation-rules/credit-card": "^1.0",
         "laravel/framework": "5.5.*",
         "laravel/passport": "~4.0",
-        "laravel/tinker": "~1.0"
+        "laravel/tinker": "~1.0",
+        "rap2hpoutre/laravel-credit-card-validator": "^0.0.6"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

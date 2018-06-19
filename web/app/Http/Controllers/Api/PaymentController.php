@@ -10,7 +10,12 @@ use LVR\CreditCard\CardNumber;
 use LVR\CreditCard\Cards\Visa;
 use LVR\CreditCard\ExpirationDateValidator;
 use TiffinService\Http\Requests\CardValidator;
+use TiffinService\Payment;
+use TiffinService\SubscribedPackages;
+use TiffinService\Subscription;
+use Illuminate\Mail\Mailer;
 use Carbon\Carbon;
+
 class PaymentController extends Controller
 {
 
@@ -108,33 +113,78 @@ class PaymentController extends Controller
 
     }
 
-
      public function Payment(CardValidator $request) // shows the cart summary     
-    {		
-        $expiration_year = request('expiration_year');
-        $expiration_month = request('expiration_month');
-        $cvc = request('cvc');
-        $cvc = request('total_amount');
-        $dt = Carbon::now();
-      
+    {   
 
-          if($dt->year > $expiration_year){
+        try {
 
-             return response()->json(['error'=>'the year must be greater than current year'],203);
+                $expiration_year = request('expiration_year');
+                $homemaker_id = request('HomeMakerId');
+                $expiration_month = request('expiration_month');
+                $cvc = request('cvc');
+                $cost = request('total_amount');
+                $cart = request('cart');
+
+           
+                $dt = Carbon::now();
+
+                $subscription_start_date = $dt;
+                $subscription_end_date = Carbon::now()->addDays(30); 
+                $substatus = 0;        
+
+                  if($dt->year > $expiration_year){
+
+                     return response()->json(['error'=>'the year must be greater than current year'],203);
+
+                  }
+
+                 if($dt->year == $expiration_year && $dt->month > $expiration_month){
+
+                     return response()->json(['error'=>'please check the card expiry month'],203);
+
+                  }
+
+                  $subscription = new Subscription;
+                  $subscription->SubCost = $cost;
+                  $subscription->SubStartDate = $subscription_start_date;
+                  $subscription->SubEndDate = $subscription_end_date;
+                  $subscription->SubStatus = $substatus;
+                  $subscription->TiffinSeekerId = \Auth::user()->id;
+                  $subscription->HomeMakerId = $homemaker_id;
+                  $subscription->save();
+             
+                  $payment = new Payment;
+
+                  $payment->PAmt = $cost;
+                  $payment->PStatus = '1';
+
+                  $payment->SubscID = $subscription->SubId;
+                  $payment->save();
+
+                  Subscription::where('SubId',$subscription->SubId)->update(['SubStatus' => 1]);
+
+                  if (count($cart) > 0) {
+
+                    foreach ($cart as $key => $value) {
+
+                        $add_package = new SubscribedPackages;
+                        $add_package->PackageId = $value;
+                        $add_package->SubscrpId = $subscription->SubId;
+                        $add_package->save();
+                    }
+
+                  }
+
+                  Mailer::to(\Auth::user()->email)->send()
+
+                 return response()->json(['status'=>'success'],200); 
+            
+        } catch (Exception $e) {
 
 
-          }
-
-         if($dt->year == $expiration_year && $dt->month > $expiration_month){
-
-             return response()->json(['error'=>'please check the card expiry month'],203);
-
-
-          }
-
-        return response()->json(['status'=>'success'],203);
-
-      
+             return response()->json(['status'=>'failed'],203); 
+        }
+           
 
 
  	}
