@@ -45,6 +45,15 @@ Route::middleware('auth:api')->group(function(){
 
 		Route::post('logout', 'Api\Auth\LoginController@logout');
 		Route::post('posts', 'Api\Auth\LoginController@refresh');
+		
+		Route::post('tiffinseekerprofile', 'Api\UserProfileController@tiffinSeekercreate');
+		Route::post('tiffinseekerprofileview', 'Api\UserProfileController@tiffinseekerprofileview');
+
+		
+		Route::post('homemakerprofile','Api\UserProfileController@homemakerprofilecreate');
+		Route::post('homemakerprofileview','Api\UserProfileController@homemakerprofileview');
+		
+
 
 		/*Homemaker Package*/
 
