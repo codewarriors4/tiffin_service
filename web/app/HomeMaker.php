@@ -10,7 +10,7 @@ class HomeMaker extends Model
 	 protected $table = 'homemaker';
      protected $primaryKey = 'HMId';
 
-
+     
 
       /**
      * The attributes that are mass assignable.
