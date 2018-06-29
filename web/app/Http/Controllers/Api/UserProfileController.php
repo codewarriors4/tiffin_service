@@ -21,7 +21,7 @@ class UserProfileController extends Controller
         		
         		'UserFname' => 'required',
         		'UserLname' => 'required',
-        		'UserType' => 'required',
+        	
         		'UserStreet'=>'required',
         		'UserZipCode' => 'required',
         		'UserPhone'=>'required'
@@ -32,7 +32,7 @@ class UserProfileController extends Controller
     	$users=User::find($authid);
     	$users->UserFname=request('UserFname');
     	$users->UserLname=request('UserLname');
-    	$users->UserType=request('UserType');
+    	
     	$users->UserPhone=request('UserPhone');
     	$users->UserStreet=request('UserStreet');
     	$users->UserCountry=request('UserCountry');
@@ -111,7 +111,7 @@ class UserProfileController extends Controller
         		
         		'UserFname' => 'required',
         		'UserLname' => 'required',
-        		'UserType' => 'required',
+        		
         		'UserStreet'=>'required',
         		'UserZipCode' => 'required',
         		'UserPhone'=>'required'
@@ -123,8 +123,7 @@ class UserProfileController extends Controller
     	$users=User::find($authid);
     	$users->UserFname=request('UserFname');
     	$users->UserLname=request('UserLname');
-    	$users->UserType=request('UserType');
-    	$users->UserPhone=request('UserPhone');
+        	$users->UserPhone=request('UserPhone');
     	$users->UserStreet=request('UserStreet');
     	$users->UserCountry=request('UserCountry');
     	$users->UserProvince=request('UserProvince');
