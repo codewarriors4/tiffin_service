@@ -9,6 +9,8 @@ class TiffinSeeker extends Model
 
 
 	 protected $table = 'tiffinseeker';
+    protected $primaryKey = 'TSId';
+
       /**
      * The attributes that are mass assignable.
      *
