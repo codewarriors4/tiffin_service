@@ -16,7 +16,7 @@ class UserController extends Controller
 
         try {
 
-            $user = User::join('homemaker', 'users.id', '=', 'homemaker.UserId')->where('id', $userId)->get();
+            $user = User::join('homemaker', 'users.id', '=', 'homemaker.UserId')->where('id', $userId)->first();
             return response()->json(['hmdetails' => $user], 200);
 
         } catch (Exception $e) {
