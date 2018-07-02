@@ -52,7 +52,13 @@ Route::middleware('auth:api')->group(function(){
 		
 		Route::post('homemakerprofile','Api\UserProfileController@homemakerprofilecreate');
 		Route::post('homemakerprofileview','Api\UserProfileController@homemakerprofileview');
-		
+	
+	/*Subscripition*/
+
+		Route::post('homemakersubscriber','Api\UserSuscriberController@homemakersubscriberview');
+		Route::post('homemakersubscribermonthly','Api\UserSuscriberController@homemakersubscriberviewmonthly');
+		Route::post('homemakersubscriberdaily','Api\UserSuscriberController@homemakersubscriberviewdaily');
+		Route::post('tiffinseekersubscribtion','Api\UserSuscriberController@tiffinseekersubscribtionview');
 
 
 		/*Homemaker Package*/
