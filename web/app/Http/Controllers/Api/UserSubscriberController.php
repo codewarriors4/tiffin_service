@@ -2,80 +2,180 @@
 
 namespace TiffinService\Http\Controllers\Api;
 
-use TiffinService\HomeMaker;
 use Illuminate\Http\Request;
+use TiffinService\HomeMaker;
 use TiffinService\Http\Controllers\Controller;
+use TiffinService\TiffinSeeker;
 use TiffinService\User;
-use TiffinService\subscription;
-use TiffinService\tiffinseeker;
 
-Class UserSuscriberController extends Controller
+class UserSubscriberController extends Controller
 {
 
-	public function homemakersubscriberviewdaily(Request $request)
-	{
+    public function homemakersubscriberviewdaily(Request $request)
+    {
+        try {
 
-	}
-	public function homemakersubscriberviewmonthly(Request $request)
-	{
-		
-	}
-	public function homemakersubscriberview(Request $request)
-	{
+            $authid = \Auth::user()->id;
+            $users  = User::find($authid);
 
-		try {
-			
-		
-		$authid = \Auth::user()->id;
-    	$users=User::find($authid);
+            #dd($users);
+            $dt              = \Carbon\Carbon::now();
 
-    	#dd($users);
+            $userId = HomeMaker::where('UserId', $authid)->first();
+            #dd($userId->HMId);
 
-		$userId=HomeMaker::where('UserId',$authid)->first();
-		#dd($userId->HMId);
-		$dt = new \DateTime();
-		$dt->format('Y-m-d H:i:s');
 #dd($dt->date);
-		$data=User::join('tiffinseeker','tiffinseeker.UserId','=','users.id')
-		->join('subscription','subscription.TiffinSeekerId','=','tiffinseeker.TSid')
-		->join('homemakerpackages','homemakerpackages.HMPId','=','subscription.HMPid')
-		->join('homemaker','homemaker.HMId','=','subscription.HomeMakerId')
-		->where('subscription.SubEndDate','<',$dt)
-		->where('homemaker.HMId',$userId->HMId)->get();
-	
-			return response()->json($data,200);
+            $data = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
+                ->join('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
+                ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
+                ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
+                ->where('subscription.SubEndDate','>=', $dt->format('Y-m-d')." 00:00:00")
+                ->where('subscription.HomeMakerId', $userId->HMId)->get();
 
-		} 
-		catch (Exception $e) 
-		{
-			response()->json(['status'=>'amit_suks'],203);
-		}
-	}
+            return response()->json($data, 200);
+
+        } catch (Exception $e) {
+            response()->json(['status' => 'amit_suks'], 203);
+        }
+    }
+    public function homemakersubscriberviewmonthly(Request $request)
+    {
+
+        try {
+
+            $authid = \Auth::user()->id;
+            $users  = User::find($authid);
+
+            #dd($users);
+
+            $userId = HomeMaker::where('UserId', $authid)->first();
+            //dd($userId->HMId);
+
+            $dt              = \Carbon\Carbon::now();
+            $next_month_date = $dt->addDays(30);
+
+//dd($next_month_date);
+            $data = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
+                ->join('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
+                ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
+                ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
+                ->whereBetween('subscription.SubEndDate', [$dt->format('Y-m-d')." 00:00:00", $dt->addDays(30)->format('Y-m-d')." 23:59:59"])
+                ->where('subscription.HomeMakerId', $userId->HMId)->get();
 
 
-	public function tiffinseekersubscribtionview()
-	{
-		try {
-			
-		$authid = \Auth::user()->id;
-    	$users=User::find($authid);
+            return response()->json($data, 200);
 
-		$userId=tiffinseeker::where('TSId',$authid)->first();
-		#dd($userId->TSId);
+        } catch (Exception $e) {
+            response()->json(['status' => 'amit_suks'], 203);
+        }
 
-		$data=User::join('tiffinseeker','tiffinseeker.UserId','=','users.id')
-		->join('subscription','subscription.TiffinSeekerId','=','tiffinseeker.TSid')
-		->join('homemakerpackages','homemakerpackages.HMPId','=','subscription.HMPid')
-		->join('homemaker','homemaker.HMId','=','subscription.HomeMakerId')
-		->where('tiffinseeker.TSId',$userId->TSId)->get();
+    }
+    public function homemakersubscriberview(Request $request)
+    {
 
-			return response()->json($data,200);
+        try {
 
-		} 
-		catch (Exception $e) 
-		{
-			response()->json(['status'=>'amit_suks'],203);
-		}
-	}
+            $authid = \Auth::user()->id;
+            $users  = User::find($authid);
+
+            #dd($users);
+
+            $userId = HomeMaker::where('UserId', $authid)->first();
+            #dd($userId->HMId);
+
+#dd($dt->date);
+            $data = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
+                ->join('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
+                ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
+                ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
+                ->where('subscription.HomeMakerId', $userId->HMId)->get();
+
+            return response()->json($data, 200);
+
+        } catch (Exception $e) {
+            response()->json(['status' => 'amit_suks'], 203);
+        }
+    }
+/*
+    public function tiffinseekersubscriberviewdaily(Request $request)
+    {
+        try {
+
+            $authid = \Auth::user()->id;
+            $users  = User::find($authid);
+
+            #dd($users);
+            $dt              = \Carbon\Carbon::now();
+
+            $userId = TiffinSeeker::where('UserId', $authid)->first();
+            #dd($userId->HMId);
+
+#dd($dt->date);
+            $data = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
+                ->join('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
+                ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
+                ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
+                ->where('subscription.SubEndDate','>=', $dt->format('Y-m-d')." 00:00:00")
+                ->where('subscription.TiffinSeekerId', $userId->TSId)->get();
+
+            return response()->json($data, 200);
+
+        } catch (Exception $e) {
+            response()->json(['status' => 'amit_suks'], 203);
+        }
+    }
+    public function tiffinseekersubscriberviewmonthly(Request $request)
+    {
+
+        try {
+
+            $authid = \Auth::user()->id;
+            $users  = User::find($authid);
+
+            #dd($users);
+
+            $userId = TiffinSeeker::where('UserId', $authid)->first();
+            #dd($userId->HMId);
+
+            $dt              = \Carbon\Carbon::now();
+            $next_month_date = $dt->addDays(30);
+#dd($dt->date);
+            $data = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
+                ->join('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
+                ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
+                ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
+                ->whereBetween('subscription.SubEndDate', [$dt->format('Y-m-d')." 00:00:00", $dt->addDays(30)->format('Y-m-d')." 23:59:59"])
+                ->where('subscription.TiffinSeekerId', $userId->TSId)->get();
+
+            return response()->json($data, 200);
+
+        } catch (Exception $e) {
+            response()->json(['status' => 'amit_suks'], 203);
+        }
+
+    }*/
+
+    public function tiffinseekersubscribtionview()
+    {
+        try {
+
+            $authid = \Auth::user()->id;
+            $users  = User::find($authid);
+//dd($authid);
+            $userId = TiffinSeeker::where('UserId', $authid)->first();
+         //   dd($userId);
+
+            $data = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
+                ->join('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
+                ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
+                ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
+                ->where('subscription.TiffinSeekerId', $userId->TSId)->get();
+
+            return response()->json($data, 200);
+
+        } catch (Exception $e) {
+            response()->json(['status' => 'amit_suks'], 203);
+        }
+    }
 
 }

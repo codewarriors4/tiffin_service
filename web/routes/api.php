@@ -53,15 +53,18 @@ Route::middleware('auth:api')->group(function(){
 		Route::post('homemakerprofile','Api\UserProfileController@homemakerprofilecreate');
 		Route::post('homemakerprofileview','Api\UserProfileController@homemakerprofileview');
 	
-	/*Subscripition*/
+	/*Subscription*/
 
-		Route::post('homemakersubscriber','Api\UserSuscriberController@homemakersubscriberview');
-		Route::post('homemakersubscribermonthly','Api\UserSuscriberController@homemakersubscriberviewmonthly');
-		Route::post('homemakersubscriberdaily','Api\UserSuscriberController@homemakersubscriberviewdaily');
-		Route::post('tiffinseekersubscribtion','Api\UserSuscriberController@tiffinseekersubscribtionview');
+		Route::post('homemakersubscribers','Api\UserSubscriberController@homemakersubscriberview');
+		Route::post('homemakersubscribermonthly','Api\UserSubscriberController@homemakersubscriberviewmonthly');
+		Route::post('homemakersubscriberdaily','Api\UserSubscriberController@homemakersubscriberviewdaily');
+
+/*		Route::post('tiffinseekersubscribtions','Api\UserSubscriberController@tiffinseekersubscribtionview');
+		Route::post('tiffinseekersubscribermonthly','Api\UserSubscriberController@tiffinseekersubscriberviewmonthly');*/
+		Route::post('tiffinseekersubscriber','Api\UserSubscriberController@tiffinseekersubscriberviewdaily');
 
 
-		/*Homemaker Package*/
+	/*Homemaker Package*/
 
 		Route::post('createmenu', 'Api\HomeMakerPackagesController@HMPCreate')->name('createmenu');
 		Route::post('updatemenu', 'Api\HomeMakerPackagesController@HMPUpdate')->name('updatemenu');
