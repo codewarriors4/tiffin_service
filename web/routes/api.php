@@ -59,9 +59,9 @@ Route::middleware('auth:api')->group(function(){
 		Route::post('homemakersubscribermonthly','Api\UserSubscriberController@homemakersubscriberviewmonthly');
 		Route::post('homemakersubscriberdaily','Api\UserSubscriberController@homemakersubscriberviewdaily');
 
-/*		Route::post('tiffinseekersubscribtions','Api\UserSubscriberController@tiffinseekersubscribtionview');
-		Route::post('tiffinseekersubscribermonthly','Api\UserSubscriberController@tiffinseekersubscriberviewmonthly');*/
-		Route::post('tiffinseekersubscriber','Api\UserSubscriberController@tiffinseekersubscriberviewdaily');
+		Route::post('tiffinseekersubscribtions','Api\UserSubscriberController@tiffinseekersubscribtionview');
+/*		Route::post('tiffinseekersubscribermonthly','Api\UserSubscriberController@tiffinseekersubscriberviewmonthly');
+		Route::post('tiffinseekersubscriber','Api\UserSubscriberController@tiffinseekersubscriberviewdaily'); */
 
 
 	/*Homemaker Package*/
