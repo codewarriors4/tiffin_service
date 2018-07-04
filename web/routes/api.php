@@ -69,7 +69,8 @@ Route::middleware('auth:api')->group(function(){
 		Route::post('createmenu', 'Api\HomeMakerPackagesController@HMPCreate')->name('createmenu');
 		Route::post('updatemenu', 'Api\HomeMakerPackagesController@HMPUpdate')->name('updatemenu');
 		Route::post('deletemenu', 'Api\HomeMakerPackagesController@HMPDelete')->name('deletemenu'); //requires to pass HMPId as request
-		Route::get('mypackages', 'Api\HomeMakerPackagesController@HMPMyPackages')->name('mypackages'); //view packages		
+		Route::get('mypackages', 'Api\HomeMakerPackagesController@HMPMyPackages')->name('mypackages'); //view packages	
+		Route::post('mypackage', 'Api\HomeMakerPackagesController@HMPMyPackage')->name('mypackage'); //view packages			
 
 
 

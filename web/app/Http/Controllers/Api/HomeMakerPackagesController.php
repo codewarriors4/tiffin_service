@@ -6,6 +6,8 @@ use TiffinService\HomeMaker;
 use TiffinService\HomeMakerPackages;
 use Illuminate\Http\Request;
 use TiffinService\Http\Controllers\Controller;
+use TiffinService\User;
+
 
 class HomeMakerPackagesController extends Controller
 {    
@@ -134,6 +136,35 @@ class HomeMakerPackagesController extends Controller
     		}
 
     	}
+
+            //Homekar View a single package 
+        public function HMPMyPackage(Request $request){
+
+            try{
+
+            //$user_id = \Auth::user()->id; 
+            $homemaker_package_id = request('HMPId');
+
+            if($homemaker_package_id =='' || $homemaker_package_id == null){
+                return response()->json(['status'=>'failed'],203);
+            }          
+            
+
+            $home_maker_packages = User::join('homemaker','homemaker.UserId','=','users.id')
+            ->join('homemakerpackages','homemakerpackages.HomeMakerId','=','homemaker.HMId')->where('HMPId',$homemaker_package_id)->first();
+
+
+
+            return response()->json(['home_maker_packages'=>$home_maker_packages],200); 
+
+            }
+            catch(Exception $e){
+
+                return response()->json(['status'=>'failed'],203);
+
+            }
+
+        }
 
     	//Tiffinseekers views a homemaker pakage
 
