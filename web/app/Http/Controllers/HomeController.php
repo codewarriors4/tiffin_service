@@ -38,5 +38,14 @@ class HomeController extends Controller
        // return view('home');
     }
 
+   public function showloginform()
+    {
+       // return view('tsadmin.adminloginform');
+    }
+
+
+
+
+
 
 }
