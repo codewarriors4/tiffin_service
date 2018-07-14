@@ -13,7 +13,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
                     Your password has been reset. Please login with the new password on the app
                 </div>
             </div>

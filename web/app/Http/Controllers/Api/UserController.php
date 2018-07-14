@@ -5,6 +5,8 @@ namespace TiffinService\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use TiffinService\Http\Controllers\Controller;
 use TiffinService\User;
+use TiffinService\UserMobInfo;
+
 
 class UserController extends Controller
 {
@@ -24,6 +26,20 @@ class UserController extends Controller
             return response()->json(['status' => 'failed'], 203);
 
         }
+
+    }
+
+    public function storeFCMToken(Request $request){
+
+         $store = new UserMobInfo();
+         $store->fcmToken = request('fcmToken');
+         $store->userID = \Auth::user()->id;
+
+         $store->save();
+
+         return response()->json(['status' => 'success'], 200);
+
+
 
     }
 }

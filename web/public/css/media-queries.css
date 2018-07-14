@@ -1,0 +1,260 @@
+/* --------------------------------------------------------
+Style Sheet for OurPerfectStart
+
+version: 1.0
+Author: Mehul Golania
+----------------------------------------------------------*/
+@media screen and (max-width:1600px){
+    .ops_container{padding:0 15px;}
+
+}
+
+@media screen and (max-width: 1440px) {
+	.width-container{width:94%; padding:0 3%;}
+	
+	#primary_navigation{padding:20px 0px 20px 15px;}
+	#search_wrapper{margin:40px 0 0;}
+    .logo_2_section{padding:11px 0px 11px 15px;}
+    .after_login_header #primary_navigation{padding:15px 0px;}
+}
+
+@media screen and (max-width:1399px){
+	.footer_container > .row > .col-sm-8,
+	.footer_container > .row > .col-sm-4{width:100%;text-align:center;padding:10px 0;}
+	.copyright{padding:0;text-align:center;}
+}
+
+@media screen and (max-width:1359px){
+    .add_fund_wrapper, .gift_wrapper,
+    .add_photo_wrapper, .photo_wrapper,
+    .add_video_wrapper, .video_wrapper{width:25%;}
+}
+
+@media screen and (max-width:1200px){
+    ul.primary_anchors > li{padding:0 10px; margin: 10px 0;}
+    
+    .my_profile_content_section ul.nav-tabs{padding:5px 5px 0;text-align:center;}
+    .my_profile_content_section ul.nav-tabs > li.border{margin:0 15px;}
+    
+    ul.other_info li.border{margin:0px 30px 0px 10px;}
+    ul.other_info li > a > span.edit_icon{margin:0; }
+    .facebook_bt, .tweet_bt, .instagram_bt{ margin-left: 0px; margin-right: 0px;}
+    .signup_field_wrapper.calen > input{ width: 82%;}
+    .testimonial_cont .quotes_text{width: 75%;}
+    .container.container_padd.faq_wrapper{width:90%;}
+.profile_settings{padding:55px 0 0;}
+.profile_settings ul.setting_anchor{ padding: 0px; text-align: center; margin-top: 41px; display: block;}
+.contact_text_center {  float: right;   width: auto;}
+}
+
+@media screen and (max-width:1070px){
+    .add_fund_wrapper, .gift_wrapper,
+    .add_photo_wrapper, .photo_wrapper,
+    .add_video_wrapper, .video_wrapper{width:33.33%;}
+ .field_area{ width: 100%;}
+
+}
+
+
+@media screen and (max-width:1024px){
+    .profile_photo_section{width:100px;height:100px;bottom:-50px;}
+    .profile_photo_wrapper{width:100px;height:100px;border-radius:100px;}
+    .profile_settings ul.setting_anchor{ margin-top: 21px;}
+    
+.about_us_cont{  padding: 0px;}
+
+
+}
+
+@media only screen and (max-width:1023px){
+	.policy_section{padding:25px 10px 30px}
+	.modal-content{padding:0 50px;}    
+    .my_profile_content_section ul.nav-tabs > li.border{margin:0px 5px;}
+    .my_profile_content_section ul.nav-tabs > li > a{letter-spacing:1px;}    
+    ul.other_info li{margin:10px 0;}
+    .share_registry_box{width: 525px;}
+    ul.other_info{padding: 0px;}
+
+
+}
+
+@media screen and (max-width:990px) {    
+     .table-responsive{width: 100%; overflow: auto;}
+      #search_result table{width: 1200px;}
+      .signup_field_wrapper.calen > input{ width: 82%;}
+      .testimonial_cont .quotes_text{width: 70%;}
+     
+      
+  }
+
+@media screen and (max-width:800px){
+    .add_fund_wrapper, .gift_wrapper,
+    .add_photo_wrapper, .photo_wrapper,
+    .add_video_wrapper, .video_wrapper{width:50%;}
+    .video-container{width: 90%;}
+    
+}
+
+@media only screen and (max-width:768px){
+	ul.footer_anchors > li{margin:15px 0;}
+    .signup_field_wrapper.calen > input{ width: 82%;}    
+    .form_content.form_registry input { font-family: "open_sansregular";
+    font-size: 14px; /* height: 50px;*/}
+    .testimonial_cont .quotes_text{width: 80%;}
+    .testimonial_cont { text-align: left; width:90% !important; margin: 0px auto;}
+    .testimonial_ud{left: 5%;}
+    .share_registry_box{margin:0;}
+    .container_padd{padding-left: 15px;    padding-right: 15px}
+
+    /* Login Modal */
+    .ops_modal{padding:0 20px;}
+    .my_profile_content_section ul.nav-tabs > li > a{padding:10px 5px;}
+    .chosen-container{width: 100% !important;}
+    .panel-group { margin: 0 auto;  width: 96%;}
+    
+
+}
+   
+@media screen and (max-width:767px){
+	#primary_navigation{text-align:center;}
+
+	.logo_section > a {display:block;}
+	#perfect_start_wrapper{position:static;top:0;margin:40px auto 0;padding:0 10px;}
+	#primary_footer{position:static;margin:40px 0 0;}
+	.footer_container{padding:15px;}
+
+	
+	.modal-content{padding:0 15px;}
+	.modal-header .modal_heading > h2{font-size:40px;}
+	/*.form_content input[type="text"], .form_content input[type="password"]{font-size:18px;}*/
+	.close_icon{top:10px; right:10px;}
+
+	.logo_2_section{text-align:center;}
+	.page_title > h2{font-size:40px;}
+
+	/*sign up step - 2*/
+	.info_section_wrapper{margin:0 0 20px;}
+	.wedding_section label.info_label{margin:0;}
+
+	.info_section label.info_label,
+	.bride_groom_section{text-align:center;padding:10px 5px;display:block;}
+
+	.signup_field_wrapper > input[type="text"], 
+	.signup_field_wrapper > input[type="email"]{width:100%;}
+  
+    
+    /* My Profile  */
+    .after_login_header{background:#000;}
+    .cover_photo_section{margin:0 !important;}
+    
+    .user_name > h2 > a{font-size:40px;}
+    /*ul.setting_anchor li.active a{padding:5px 12px;}
+    */
+    .upload_cover_photo{left:0;right:0;bottom:60px;text-align:center;}
+    .profile_settings{padding:55px 0 0;text-align:center;}
+    
+    .add_gift_section{padding:50px 0;}
+    .add_gift_section > a{padding:10px 15px;}
+    
+    .tab-content{padding:0;}
+    .share_registry_box{width: 100%;}
+    .form_content.form_registry input {  color: #333;  font-family: "open_sansregular";  font-size: 14px; letter-spacing: 2px;  width: 100%;}
+    .signup_field_wrapper.calen > input{ width:95%;}
+   /* .button_wrapper input[type="submit"]{ padding: 10px 3px;width: 80%; font-size: 12px;   } */ 
+    #search_result th, #search_result td{padding: 16px 0;}
+/*.ui-datepicker{ right:25px !important; left: inherit !important;}*/
+.signup_field_wrapper{ margin: 5px 0;}
+
+.ui-widget-content{  left: inherit !important;right: 10px !important}
+.wedding_section { margin-bottom: 0px;}
+.up_btn, .down_btn{display: none !important;}
+ .contact_text{ text-align: left;  /*width: 500px;*/ margin: 0 auto; margin-top: 50px;}
+.contact_text_center {  float: left;   width: 100%; margin-top: 20px;}
+.contact_text address{  width: auto;    }
+}
+
+@media screen and (max-width:630px){
+.signup_field_wrapper.calen > input{width: 93%;}
+
+
+}
+@media screen and (max-width:560px){
+    .add_fund_wrapper, .gift_wrapper,
+    .add_photo_wrapper, .photo_wrapper,
+    .add_video_wrapper, .video_wrapper{width:100%;display:block;margin:0 0 20px;}
+
+}
+
+
+
+@media screen and (max-width:539px){
+	ul.footer_anchors > li{float:left;width:50%;padding:10px 5px;border:0 !important;}
+	.remember_forgot_wrapper > .left,
+	.remember_forgot_wrapper > .right{width:100%;float:none;}
+	.forgot{text-align:right;margin:5px 0 0;}    
+    ul.other_info li{display:block;margin:0 0 15px;}
+    ul.other_info li.border{display:none;}    
+    /*ul.other_info li > a > span.icon,
+    ul.other_info li > a > span.info_lable{display:table-cell;}*/
+    ul.other_info li > a > span.info_lable{word-break:break-all;padding:0 0 0 10px;}   
+   /* ul.other_info1 li > span.icon,
+    ul.other_info1 li > span.info_lable{display:table-cell;}*/
+    ul.other_info1 li > span.info_lable{word-break:break-all;padding:0 0 0 10px;}
+    .other_info11{display: table-cell !important;}    
+    .upload_cover_photo{padding:45px 0 0;}
+    ul.setting_anchor li.active a{padding: 14px 30px;}    
+    .signup_field_wrapper.calen > input{ width: 90%;} 
+    .field_area,.contact_text{width: 100%; }
+ /*ul.other_info li > a > span.edit_icon{ display: table-cell; float: right;}*/
+
+}
+
+@media screen and (max-width:480px){
+        .footer_container{padding:0 15px;}
+        ul.footer_anchors > li{width:100%;margin:5px 0;}
+
+        .my_profile_content_section > ul.nav-tabs > li{display:block;}
+        .my_profile_content_section > ul.nav-tabs > li.border{display:none;}
+        .my_profile_content_section > ul.nav-tabs > li > a{display:inline-block;}
+
+        .profile_settings ul.setting_anchor li{display:block;margin:0 0 20px;}
+        .photo-content{padding: 20px;}
+        .signup_field_wrapper.calen > input{ width: 89%;} 
+        .about_us .page_title h2, .about_text h2{font-size: 30px;}
+        .about_padd{ margin-top: 50px;}
+
+        .panel-group { margin: 0 auto; width: 93%;}
+        .panel-title{font-size: 16px; line-height: 21px;}
+        .plus_color{padding: 0px 7px 7px 0;font-size: 31px;}
+        .ourteam{width: 100% !important;}
+        .user_name > h2 > a{font-size: 30px; padding-left: 30px;}
+        .profile_photo_section{width:60px;height:60px;bottom:-30px;}
+        .profile_photo_wrapper{width:60px;height:60px;border-radius:60px;}
+        ul.setting_anchor li.active a{padding: 10px 20px;}
+        .profile_settings ul.setting_anchor{margin-top: 0px;}
+        ul.other_info li > a > span.icon,
+        ul.other_info li > a > span.info_lable{display:table-cell;}
+
+        .policy_text h3{  font-size: 14px;}
+        .fund_bt_padd a{  padding: 10px 20px !important; }
+        .user_name > h2 > a{font-size: 24px; padding-left:0px;}
+        ul.other_info1 li > span.edit_icon{display: none;}
+        .search .page_title > h2{font-size: 28px;}
+        .about_text .number{ width: 50px; height: 50px; font-size: 31px; padding: 0px; border: 3px solid #24b3a9;}
+        .contact_text div{display: table-cell;}
+
+
+}
+@media screen and (max-width:360px){
+    #search_wrapper input[type="text"]{letter-spacing:0;}
+
+
+    
+/*
+
+    #search_result th{ font-size: 11px; }
+    #search_result td { font-size: 12px; }
+    #search_result td img{width: 50px; height: 50px;}
+    #search_result .button_wrapper > input{width: 100%; padding: 10px 10px;}*/
+
+}

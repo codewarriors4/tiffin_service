@@ -41,7 +41,6 @@ Route::middleware('auth:api')->group(function(){
 	        return response()->json(request()->user());
 	    });
 
-		Route::post('logout', 'Api\Auth\LoginController@logout');
 
 		Route::post('logout', 'Api\Auth\LoginController@logout');
 		Route::post('posts', 'Api\Auth\LoginController@refresh');
@@ -92,6 +91,13 @@ Route::middleware('auth:api')->group(function(){
 
 		/* Payment */
 		Route::post('payment', 'Api\PaymentController@Payment')->name('payment');
+
+
+		/* store fcm token to db */
+
+		Route::post('fcmtokenstore', 'Api\UserController@storeFCMToken')->name('fcmtokenstore');
+
+
 
 
 
