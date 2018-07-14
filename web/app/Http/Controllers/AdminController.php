@@ -3,6 +3,8 @@
 namespace TiffinService\Http\Controllers;
 
 use Illuminate\Http\Request;
+use TiffinService\User;
+
 
 class AdminController extends Controller
 {
@@ -41,7 +43,7 @@ class AdminController extends Controller
 
             if($Is_Admin == 3)
             {
-               
+
                 return redirect()->route('manageusers');
 
             }
@@ -57,6 +59,20 @@ class AdminController extends Controller
             return redirect()->route('adminloginget')->withInput()->withErrors("You are not Authorised");
 
         }
+
+    }
+
+
+    public function approveUser($id){
+
+
+        $user_id = $id;
+
+        $status = User::where('id',$user_id)->update(['isActive' => 1]);
+        
+
+        return 'success';
+
 
     }
 

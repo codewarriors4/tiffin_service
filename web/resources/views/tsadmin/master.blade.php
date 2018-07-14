@@ -30,7 +30,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script type="text/javascript" src=" {{ asset('js/OpsAdmin/admincontrols.js') }} " ></script>
+    <script type="text/javascript" src=" {{ asset('bootstrap/js/admincontrols.js') }} " ></script>
     <script type="text/javascript" src=" {{ asset('js/canvasjs/canvasjs.min.js') }}"></script>
   </head>
   <!--

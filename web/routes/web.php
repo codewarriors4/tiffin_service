@@ -21,6 +21,8 @@ Route::get('/manageusers',                      [ 'as'=>'manageusers' ,         
 
 
 Route::post('adminlogin', 'AdminController@authenticateAdmin')->name('adminlogin');
+
+
 //Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -38,6 +40,9 @@ Route::get('login', function () {
 	\Auth::logout();
     return view('welcome');
 });
+
+Route::get('/approve/{id}', 'AdminController@approveUser')->name('approveUser');
+
 
 
 

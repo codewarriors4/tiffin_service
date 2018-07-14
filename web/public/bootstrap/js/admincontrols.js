@@ -30,3 +30,20 @@
      // var boxid = document.getElementById('search_box');
       alert("hello");
     }
+
+    function modify_request(id){
+
+    //  alert(id);
+
+      var url = "http://localhost/tiffin_service/web/public/approve";
+      var formData = {id:id};
+
+      $.get( url+'/'+id, function( data ) {
+  
+      
+          window.location = "manageusers";
+      
+});
+
+    
+    }

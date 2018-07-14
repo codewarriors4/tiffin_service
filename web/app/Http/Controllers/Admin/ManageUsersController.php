@@ -2,6 +2,7 @@
 namespace TiffinService\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use TiffinService\HomeMaker;
 
 use TiffinService\Http\Requests;
 use TiffinService\Http\Controllers\Controller;
@@ -18,9 +19,29 @@ class ManageUsersController extends Controller
     {
         
 
-       dd(\Storage::url('upload/81/license.jpg'));
+      // dd(\Storage::url('upload/81/license.jpg'));
 
         $users = User::all();
+
+        foreach ($users as $key => $user) {
+
+            if($user->UserType == 1){
+
+                $home_maker = HomeMaker::where('UserId',$user->id)->first(); 
+            //  dd($home_maker->HMFoodLicense);
+
+                if($home_maker->HMFoodLicense == null || $home_maker->HMFoodLicense ==''){
+                    $user->license = 'NA';
+
+                }else{
+                    $user->license = \Storage::url('upload/'.$user->id.'/'.'license.jpg');
+                }
+                          
+
+            }
+
+
+        }
         return view('tsadmin.manageusers', ['users' => $users]);
     }
 

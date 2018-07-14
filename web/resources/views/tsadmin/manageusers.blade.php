@@ -32,8 +32,7 @@ Manage Users
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th><input id="select_all"  name="select_all" type = "checkbox" name="selectuser" onChange="select_all(this)" />
-                    </th>                 
+                         
                     <th>Email
                         
                     </th>
@@ -48,7 +47,8 @@ Manage Users
                         
                     </th>
                     
-                    <th class="center">Actions</th>
+                    <th class="center">License</th>
+                     <th class="center">Approve</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,25 +59,31 @@ Manage Users
             
                 <tr id="{{ $user->UserId }}">
                  
-                    <td></td>       
+                       
                          
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->UserFname }}</td>
                     <td>{{ $user->UserLname }}</td>
                     <td>{{($user->isActive==1)?'Yes':'No'}}</td>
 
-                    <td class="center">
-                    <a target="_blank" href="{{ URL::to('/').'/registry/'.$user->UserCustomURL }}" class="btn
-                    btn-primary
-                    custom-width" >View</a>
-                    @if(!(Auth::id()== $user->UserId))
-                            @if($user->UserAccountBlocked==0)
-                            <button id ="{{$user->UserId}}" class="btn btn-primary custom-width" value="sdasdasd" onclick="modify_request({{$user->UserId}},'block',this)">{{($user->UserAccountBlocked==0)?'Block':'Unblock'}}</button>
-                            @else
-                            <button id ="{{$user->UserId}}" class="btn btn-primary custom-width" value="sdasdasd" onclick="modify_request({{$user->UserId}},'unblock',this)">{{($user->UserAccountBlocked==0)?'Block':'Unblock'}}</button>
+                    <td>
+
+                     @if($user->license == 'NA' || $user->license == '' )
+                                    <p>NA</p>
+                                @else
+                                   <a href="{{URL::to('/').$user->license}}">View</a>
                             @endif
-                            <button id ="{{$user->UserId}}"  class="btn btn-danger custom-width" onclick="modify_request({{$user->UserId}},'delete',this)" >Delete</button>
-                       @endif 
+
+                     </td> 
+
+                     <td class="center">                          
+                 
+                        
+                            @if($user->isActive==0)
+
+                            <button id ="{{$user->id}}" class="btn btn-primary custom-width" value="sdasdasd" onclick="modify_request({{$user->id}})">Approve</button>
+                            @endif
+                     
                     </td>                   
                    
                 </tr>

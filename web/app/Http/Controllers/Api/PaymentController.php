@@ -175,7 +175,7 @@ class PaymentController extends Controller
 
                   }
 
-                  Mailer::to(\Auth::user()->email)->send()
+                  Mailer::to(\Auth::user()->email)->send();
 
                  return response()->json(['status'=>'success'],200); 
             
