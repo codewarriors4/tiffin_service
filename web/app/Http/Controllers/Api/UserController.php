@@ -31,13 +31,26 @@ class UserController extends Controller
 
     public function storeFCMToken(Request $request){
 
-         $store = new UserMobInfo();
+         $check_if_token_exists = UserMobInfo::where('userID',\Auth::user()->id)->where('fcmToken',request('fcmToken'))->get();
+
+         if($check_if_token_exists->count() == 0){
+             $store = new UserMobInfo();
          $store->fcmToken = request('fcmToken');
          $store->userID = \Auth::user()->id;
 
          $store->save();
 
          return response()->json(['status' => 'success'], 200);
+
+         }
+         else{
+
+            return response()->json(['status' => 'success'], 200);
+
+
+         }
+
+        
 
 
 
