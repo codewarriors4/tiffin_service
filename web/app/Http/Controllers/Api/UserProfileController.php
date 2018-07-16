@@ -151,7 +151,8 @@ class UserProfileController extends Controller
 			
 		
 		$authid = \Auth::user()->id;
-		$users=User::find($authid);
+
+        $users=User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('id',$authid)->first();
 		return response()->json($users,200);
 		#return response()->json(['name' => 'ok'],200);
 	} catch (Exception $e) {
