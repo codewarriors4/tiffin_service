@@ -152,8 +152,8 @@ class HomeMakerPackagesController extends Controller
 
             $home_maker_packages = User::join('homemaker','homemaker.UserId','=','users.id')
             ->join('homemakerpackages','homemakerpackages.HomeMakerId','=','homemaker.HMId')->where('HMPId',$homemaker_package_id)->first();
-
-
+                $home_maker_packages->hst = (0.02 * $home_maker_packages->HMPCost);
+                $home_maker_packages->total = $home_maker_packages->hst + $home_maker_packages->HMPCost;
 
             return response()->json(['home_maker_packages'=>$home_maker_packages],200); 
 
