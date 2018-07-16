@@ -4,6 +4,8 @@ namespace TiffinService\Http\Controllers;
 
 use Illuminate\Http\Request;
 use TiffinService\User;
+use TiffinService\UserMobInfo;
+
 
 
 class AdminController extends Controller
@@ -68,11 +70,50 @@ class AdminController extends Controller
 
         $user_id = $id;
 
-        $status = User::where('id',$user_id)->update(['isActive' => 1]);
+        $status = User::where('id',$user_id)->update(['isActive' => 1]); 
+
+
+        $user_details = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('users.id',$user_id)->first();
+
+        $fcmtokens = UserMobInfo::where('userID',$user_id)->select("fcmtoken")->get();
+
+        $device_token_array = array();
+   
+
+
+        if($fcmtokens->count() > 0){
+
+            foreach ($fcmtokens as $key => $token) {
+                array_push($device_token_array,$token->fcmtoken);
+            }
+
+            $title = "Approved!! Congrats Chef ".$user_details->UserFname;
+            $body = "Hey Chef, ".$user_details->UserFname." <".$user_details->email."> "."you are open for business. Start preparing your menu";
+            $feedbck = \PushNotification::setService('fcm')
+                        ->setMessage([
+                             'notification' => [
+                                     'title'=>$title,
+                                     'body'=>$body,
+                                     'sound' => 'default'
+                                     ],
+                             'data' => [
+                                     'extraPayLoad1' => 'value1',
+                                     'extraPayLoad2' => 'value2'
+                                     ]
+                             ])
+                        ->setApiKey('AAAAoeIud7w:APA91bGsANVi6YE_HfJOODY6nwnBVCLWMx4Suinb6tux6R6jePDA-qX2mpNcGanlEQusyqnZ1PaZjFePkDDla6PUxgF1KZVm3WTPdbq7wYGfY9LPidiHEPCbTtQFT89bDMs5GotOb63cNYll-RG1Kd7OFJE47T1I7w')
+                        ->setDevicesToken($device_token_array)
+                        ->send()
+                        ->getFeedback(); 
+
+
+
+       dd( $feedbck);
+
+
+        }
+
         
-
-        return 'success';
-
 
     }
 

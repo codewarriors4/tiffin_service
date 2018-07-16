@@ -93,9 +93,13 @@ Route::middleware('auth:api')->group(function(){
 		Route::post('payment', 'Api\PaymentController@Payment')->name('payment');
 
 
+		/* fcmtoken management */
 		/* store fcm token to db */
 
 		Route::post('fcmtokenstore', 'Api\UserController@storeFCMToken')->name('fcmtokenstore');
+
+		Route::post('userapprovednotfn', 'Api\UserController@userApproveFCMNotify')->name('userapprovednotfn');
+
 
 
 

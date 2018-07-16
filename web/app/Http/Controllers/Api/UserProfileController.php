@@ -97,7 +97,6 @@ class UserProfileController extends Controller
     	}
     	else{
 
-
     		$homemaker=HomeMaker::where('UserId',$authid)->first();
 
 	    		if(($homemaker->HMFoodLicense) == null || ($homemaker->HMFoodLicense) == ''){
@@ -107,16 +106,18 @@ class UserProfileController extends Controller
 				}
 
     	}
- $this->validate($request,[
-        		
+ $this->validate($request,[        		
         		'UserFname' => 'required',
-        		'UserLname' => 'required',
-        		
+        		'UserLname' => 'required',        		
         		'UserStreet'=>'required',
         		'UserZipCode' => 'required',
-        		'UserPhone'=>'required'
-
+        		'UserPhone'=>'required',
+                'HMLicenseExpiryDate'=>'required'
         		]);
+
+        
+
+        
 
 		#$authid = \Auth::user()->id;
     	#$name=request('UserFname');
@@ -132,6 +133,10 @@ class UserProfileController extends Controller
     	$users->UserPhone=request('UserPhone');
     	$users->UserCompanyName=request('UserCompanyName');
     	$users->save();
+
+//set the expiry date fpr license
+        $dt = \Carbon\Carbon::parse(request('HMLicenseExpiryDate'));
+        HomeMaker::where('UserId',$authid)->update(['HMLicenseExpiryDate' => $dt]); 
 		
 		return response()->json(['status'=>'amit_good'],200);
 

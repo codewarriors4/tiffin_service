@@ -48,7 +48,6 @@ Manage Users
                     </th>
                     
                     <th class="center">License</th>
-                    <th class="center">License Expiry (yyyy-mm-dd)</th>
                      <th class="center">Approve</th>
                 </tr>
             </thead>
@@ -67,7 +66,6 @@ Manage Users
                     <td>{{ $user->UserLname }}</td>
                     <td>{{($user->isActive==1)?'Yes':'No'}}</td>
 
-
                     <td>
 
                      @if($user->license == 'NA' || $user->license == '' )
@@ -77,14 +75,11 @@ Manage Users
                             @endif
 
                      </td> 
-                     <td>{{$user->HMLicenseExpiryDate}}</td>
-
-
 
                      <td class="center">                          
                  
                         
-                            @if($user->isActive==0 && $user->UserType == 1 )
+                            @if($user->isActive==0)
 
                             <button id ="{{$user->id}}" class="btn btn-primary custom-width" value="sdasdasd" onclick="modify_request({{$user->id}})">Approve</button>
                             @endif

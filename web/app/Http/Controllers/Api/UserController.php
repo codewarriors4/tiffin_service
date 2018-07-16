@@ -47,11 +47,17 @@ class UserController extends Controller
 
             return response()->json(['status' => 'success'], 200);
 
-
          }
 
         
 
+
+
+    }
+
+    public function userApproveFCMNotify(Request $request){
+
+        
 
 
     }

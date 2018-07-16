@@ -43,6 +43,7 @@ Route::get('login', function () {
 
 Route::get('/approve/{id}', 'AdminController@approveUser')->name('approveUser');
 
+Route::post('/updateuser/{id}' ,                     ['as'=>'updateuser',                             'uses'=>'AdminController@updateUser']);
 
 
 

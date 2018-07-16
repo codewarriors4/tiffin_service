@@ -18,6 +18,8 @@ class ManageUsersController extends Controller
     public function showusers()
     {
         
+    
+       // $status = User::where('id',81)->update(['isActive' => 1]); 
 
       // dd(\Storage::url('upload/81/license.jpg'));
 
@@ -29,6 +31,7 @@ class ManageUsersController extends Controller
 
                 $home_maker = HomeMaker::where('UserId',$user->id)->first(); 
             //  dd($home_maker->HMFoodLicense);
+                $user->HMLicenseExpiryDate = $home_maker->HMLicenseExpiryDate;
 
                 if($home_maker->HMFoodLicense == null || $home_maker->HMFoodLicense ==''){
                     $user->license = 'NA';
