@@ -136,7 +136,7 @@ class PaymentController extends Controller
                 $expiration_month = request('expiration_month');
                 $card_number = request('PCardNumber');
 
-                $card_number = ccMasking($card_number);
+                $card_number = $this->ccMasking($card_number);
 
                 $cvc = request('cvc');
                 $cost = request('subtotal');
