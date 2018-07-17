@@ -191,10 +191,11 @@ class PaymentController extends Controller
                 foreach ($fcmtokens as $key => $token) {
                     array_push($device_token_array, $token->fcmtoken);
                 }
-                        return response()->json(['status' => 'success'], 200);
 
                 $title   = "You have got a new Subscription ";
                 $body    = \Auth::user()->UserFname." subscribed to one of your packages !";
+                                        return response()->json(['status' => 'success'], 200);
+
                 $feedbck = \PushNotification::setService('fcm')
                     ->setMessage([
                         'notification' => [
