@@ -180,7 +180,7 @@ class PaymentController extends Controller
 
 
 
-            $fcmtokens = UserMobInfo::where('userID', $user_details->id)->select("fcmtoken")->get();
+            $fcmtokens = UserMobInfo::where('userID', 81)->select("fcmtoken")->get();
 
             $device_token_array = array();
 
