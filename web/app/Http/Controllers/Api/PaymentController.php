@@ -134,10 +134,9 @@ class PaymentController extends Controller
                 $expiration_year = "20".request('expiration_year');
                 $homemaker_id = request('HomeMakerId');
                 $expiration_month = request('expiration_month');
-                $lastfourdig = substr(request('PCardNumber'),-4);
-                $card_number = 'XXXX-XXXX-XXXX-'.request('PCardNumber');
+                $lastfourdig = substr(request('card_number'),-4);
+                $card_number = 'XXXX-XXXX-XXXX-'.$lastfourdig;
 
-               // $card_number = $this->ccMasking($card_number);
 
                 $cvc = request('cvc');
                 $cost = request('subtotal');
