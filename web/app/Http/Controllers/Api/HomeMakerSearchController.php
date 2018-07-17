@@ -27,7 +27,7 @@ class HomeMakerSearchController extends Controller
 
       //  dd($responseJSON['results']);
 
-        dd(count($responseJSON['results']));
+        dd($responseJSON['results']);
 
 		if(count($responseJSON['results'])>0){
 
