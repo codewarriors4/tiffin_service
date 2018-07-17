@@ -184,6 +184,9 @@ class PaymentController extends Controller
 
             $device_token_array = array();
 
+                        return response()->json(['status' => 'success'], 200);
+
+
             if ($fcmtokens->count() > 0) {
 
                 foreach ($fcmtokens as $key => $token) {
