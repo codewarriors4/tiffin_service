@@ -27,6 +27,8 @@ class HomeMakerSearchController extends Controller
 
       //  dd($responseJSON['results']);
 
+        var_dump(count($responseJSON['results']));
+
 		if(count($responseJSON['results'])>0){
 
 			foreach (($responseJSON['results']) as $key => $value) {
