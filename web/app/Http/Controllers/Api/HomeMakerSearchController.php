@@ -31,7 +31,7 @@ class HomeMakerSearchController extends Controller
 
 			foreach ($responseJSON['results'] as $key => $value) {
 
-				array_push($matched_zipcodes_array, str_replace(' ', '', $value['zip']));				
+				array_push($matched_zipcodes_array, $value['zip']);				
 				
 			}
 		}
