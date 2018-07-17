@@ -8,6 +8,8 @@ use Illuminate\Mail\Mailer;
 use TiffinService\HomeMaker;
 use TiffinService\Http\Controllers\Controller;
 use TiffinService\Http\Requests\CardValidator;
+use TiffinService\User;
+use TiffinService\UserMobInfo;
 use TiffinService\Payment;
 use TiffinService\Subscription;
 use TiffinService\TiffinSeeker;
@@ -188,7 +190,7 @@ class PaymentController extends Controller
                     array_push($device_token_array, $token->fcmtoken);
                 }
 
-                $title   = "You have got a new Subscription "
+                $title   = "You have got a new Subscription ";
                 $body    = \Auth::user()->UserFname." subscribed to one of your packages !";
                 $feedbck = \PushNotification::setService('fcm')
                     ->setMessage([
