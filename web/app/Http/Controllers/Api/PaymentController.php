@@ -137,7 +137,7 @@ class PaymentController extends Controller
                 $lastfourdig = substr(request('PCardNumber'),-4);
                 $card_number = 'XXXX-XXXX-XXXX-'.$lastfourdig;
 
-                $card_number = $this->ccMasking($card_number);
+               // $card_number = $this->ccMasking($card_number);
 
                 $cvc = request('cvc');
                 $cost = request('subtotal');
