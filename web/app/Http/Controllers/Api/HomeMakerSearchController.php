@@ -25,6 +25,8 @@ class HomeMakerSearchController extends Controller
 
 		$responseJSON = json_decode($response->getBody(), true);
 
+      //  dd($responseJSON['results']);
+
 		if(count($responseJSON['results'])>0){
 
 			foreach ($responseJSON['results'] as $key => $value) {
@@ -34,7 +36,7 @@ class HomeMakerSearchController extends Controller
 			}
 		}
 
-
+dd($matched_zipcodes_array);
 		return $matched_zipcodes_array;		
 
 		//dd($responseJSON['results'][0]); //     	
