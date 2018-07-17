@@ -15,6 +15,8 @@ use TiffinService\SubscribedPackages;
 use TiffinService\Subscription;
 use Illuminate\Mail\Mailer;
 use Carbon\Carbon;
+use TiffinService\TiffinSeeker;
+
 
 class PaymentController extends Controller
 {
@@ -65,6 +67,13 @@ class PaymentController extends Controller
       }
    ]
 }*/
+
+    private $mailer;
+
+    public function __construct(Mailer $mailer)
+    {
+        $this->mailer = $mailer;
+    }
 
     public function CartSummary(Request $request) // shows the cart summary
     {
@@ -121,9 +130,14 @@ class PaymentController extends Controller
                 $expiration_year = request('expiration_year');
                 $homemaker_id = request('HomeMakerId');
                 $expiration_month = request('expiration_month');
+                $card_number = request('PCardNumber');
+
                 $cvc = request('cvc');
-                $cost = request('total_amount');
-                $cart = request('cart');
+                $cost = request('subtotal');
+                $hst = request('hst');
+                $total_cost = request('total');
+                $subsPackageId = request('HMPid');
+
 
            
                 $dt = Carbon::now();
@@ -134,9 +148,10 @@ class PaymentController extends Controller
 
                   if($dt->year > $expiration_year){
 
-                     return response()->json(['error'=>'the year must be greater than current year'],203);
+                     return response()->json(['error'=>'the year must be greater or equal touch(filename) current year'],203);
 
                   }
+
 
                  if($dt->year == $expiration_year && $dt->month > $expiration_month){
 
@@ -144,26 +159,34 @@ class PaymentController extends Controller
 
                   }
 
+                  $tsId = TiffinSeeker::where("UserId",\Auth::user()->id)->first();
+
                   $subscription = new Subscription;
-                  $subscription->SubCost = $cost;
+                  $subscription->SubCost = $total_cost;
                   $subscription->SubStartDate = $subscription_start_date;
                   $subscription->SubEndDate = $subscription_end_date;
                   $subscription->SubStatus = $substatus;
-                  $subscription->TiffinSeekerId = \Auth::user()->id;
+                  $subscription->TiffinSeekerId = $tsId->TSId;
                   $subscription->HomeMakerId = $homemaker_id;
+                  $subscription->HMPid = $subsPackageId;
                   $subscription->save();
              
                   $payment = new Payment;
 
-                  $payment->PAmt = $cost;
+                  $payment->PAmt = $total_cost;
+                  $payment->PTax = $hst;
+                  $payment->PSubTotal = $cost;
+
                   $payment->PStatus = '1';
 
                   $payment->SubscID = $subscription->SubId;
                   $payment->save();
 
+
+
                   Subscription::where('SubId',$subscription->SubId)->update(['SubStatus' => 1]);
 
-                  if (count($cart) > 0) {
+  /*                if (count($cart) > 0) {
 
                     foreach ($cart as $key => $value) {
 
@@ -173,10 +196,12 @@ class PaymentController extends Controller
                         $add_package->save();
                     }
 
-                  }
+                  }*/
 
-                  Mailer::to(\Auth::user()->email)->send();
-
+       /*           Mail::to(\Auth::user()->email)->send();
+                  
+                  $message = "Payment complete";
+                  mail('\Auth::user()->email', 'Payment complete', $message);*/
                  return response()->json(['status'=>'success'],200); 
             
         } catch (Exception $e) {

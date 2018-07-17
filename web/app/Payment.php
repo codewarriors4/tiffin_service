@@ -22,7 +22,7 @@ class Payment extends Model
      * @var array
      */
     protected $fillable = [
-        'PTransacID','PAmt','PStatus','PCardNumber','PCardExpiry','SubscID'
+        'PTransacID','PAmt','PTax','PSubTotal','PStatus','PCardNumber','PCardExpiry','SubscID'
     ];
 
     /**

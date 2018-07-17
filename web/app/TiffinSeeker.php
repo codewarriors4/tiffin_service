@@ -17,7 +17,7 @@ class TiffinSeeker extends Model
      * @var array
      */
     protected $fillable = [
-        'UserId',
+        'TSId','UserId',
     ];
 
     /**
