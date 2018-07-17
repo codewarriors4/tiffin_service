@@ -122,7 +122,7 @@ class PaymentController extends Controller
 
     }
 
-    function ccMasking($number, $maskingCharacter = 'X') {
+    public function ccMasking($number, $maskingCharacter = 'X') {
     return substr($number, 0, 4) . str_repeat($maskingCharacter, strlen($number) - 8) . substr($number, -4);
 }
 
