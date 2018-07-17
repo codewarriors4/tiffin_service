@@ -16,8 +16,7 @@ class HomeMakerSearchController extends Controller
 
      	$matched_zipcodes_array=array();
 
-     	$url = 'https://www.zipwise.com/webservices/radius.php?key=hky2tzcwg83xmkzt
-&zip='.$tiffinseeker_zip.'&radius='.$radius.'&format=json';
+     	$url = 'https://www.zipwise.com/webservices/radius.php?key=hky2tzcwg83xmkzt&zip='.$tiffinseeker_zip.'&radius='.$radius.'&format=json';
 
 		$client = new \GuzzleHttp\Client();
 		$response = $client->get($url);
@@ -25,21 +24,16 @@ class HomeMakerSearchController extends Controller
 
 		$responseJSON = json_decode($response->getBody(), true);
 
-      //  dd($responseJSON['results']);
-
-        dd($responseJSON['results']);
-
 		if(count($responseJSON['results'])>0){
 
-			foreach (($responseJSON['results']) as $key => $value) {
-                print_r($responseJSON['results']);
+			foreach ($responseJSON['results'] as $key => $value) {
 
-				//array_push($matched_zipcodes_array, $value['zip']);				
+				array_push($matched_zipcodes_array, str_replace(' ', '', $value['zip']));				
 				
 			}
 		}
 
-//dd($matched_zipcodes_array);
+
 		return $matched_zipcodes_array;		
 
 		//dd($responseJSON['results'][0]); //     	
