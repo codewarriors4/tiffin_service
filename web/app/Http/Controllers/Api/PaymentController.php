@@ -134,7 +134,7 @@ class PaymentController extends Controller
                 $expiration_year = "20".request('expiration_year');
                 $homemaker_id = request('HomeMakerId');
                 $expiration_month = request('expiration_month');
-                $card_number = request('PCardNumber');
+                $card_number = 'XXXX-XXXX-XXXX-'.substr(request('PCardNumber'),-4);
 
                 $card_number = $this->ccMasking($card_number);
 
