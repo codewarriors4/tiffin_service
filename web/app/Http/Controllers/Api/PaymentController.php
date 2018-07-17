@@ -194,7 +194,6 @@ class PaymentController extends Controller
 
                 $title   = "You have got a new Subscription ";
                 $body    = \Auth::user()->UserFname." subscribed to one of your packages !";
-                                        return response()->json(['status' => 'success'], 200);
 
                 $feedbck = \PushNotification::setService('fcm')
                     ->setMessage([
