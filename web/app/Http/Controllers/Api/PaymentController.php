@@ -122,6 +122,10 @@ class PaymentController extends Controller
 
     }
 
+    function ccMasking($number, $maskingCharacter = 'X') {
+    return substr($number, 0, 4) . str_repeat($maskingCharacter, strlen($number) - 8) . substr($number, -4);
+}
+
      public function Payment(CardValidator $request) // shows the cart summary     
     {   
 
@@ -131,6 +135,8 @@ class PaymentController extends Controller
                 $homemaker_id = request('HomeMakerId');
                 $expiration_month = request('expiration_month');
                 $card_number = request('PCardNumber');
+
+                $card_number = ccMasking($card_number);
 
                 $cvc = request('cvc');
                 $cost = request('subtotal');
@@ -176,6 +182,7 @@ class PaymentController extends Controller
                   $payment->PAmt = $total_cost;
                   $payment->PTax = $hst;
                   $payment->PSubTotal = $cost;
+                  $payment->PCardNumber = $card_number;
 
                   $payment->PStatus = '1';
 
@@ -209,6 +216,8 @@ class PaymentController extends Controller
 
              return response()->json(['status'=>'failed'],203); 
         }
+
+
            
 
 
