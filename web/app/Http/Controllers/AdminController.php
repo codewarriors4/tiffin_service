@@ -108,10 +108,11 @@ class AdminController extends Controller
 
 
 
-       dd( $feedbck);
-
+      
 
         }
+        return redirect()->route('manageusers');
+
 
         
 
