@@ -29,14 +29,15 @@ class HomeMakerSearchController extends Controller
 
 		if(count($responseJSON['results'])>0){
 
-			foreach ($responseJSON['results'] as $key => $value) {
+			foreach (($responseJSON['results']); as $key => $value) {
+                print_r($responseJSON['results']);
 
-				array_push($matched_zipcodes_array, $value['zip']);				
+				//array_push($matched_zipcodes_array, $value['zip']);				
 				
 			}
 		}
 
-dd($matched_zipcodes_array);
+//dd($matched_zipcodes_array);
 		return $matched_zipcodes_array;		
 
 		//dd($responseJSON['results'][0]); //     	
