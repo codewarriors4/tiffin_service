@@ -81,8 +81,13 @@ Route::middleware('auth:api')->group(function(){
 		Route::post('gethomemakers', 'Api\HomeMakerSearchController@HMSearch')->name('gethomemakers'); //requires to pass HMPId as request
 
 		// TiffinSeeker view Homemaker profile
-		Route::post('tsviewhmprofile/{userId}', 'Api\UserController@tiffinSeekerViewHomeMaker')->name('tsviewhmprofile'); //
+		Route::post('tsviewhmprofile/{userId}', 'Api\UserController@tiffinSeekerViewHomeMaker')->name('tsviewhmprofile'); 
 
+		//Ratings
+		Route::post('createupdateratings', 'Api\RatingsController@createorUpdateRating')->name('createupdateratings');
+		Route::post('viewhmratings', 'Api\RatingsController@viewHMRatings')->name('viewHMRatings');
+
+		
 
 		/* Add to Cart */
 		Route::post('addToCart', 'Api\PaymentController@AddToCart')->name('addToCart');

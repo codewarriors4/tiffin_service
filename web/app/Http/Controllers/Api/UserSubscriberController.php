@@ -78,6 +78,8 @@ class UserSubscriberController extends Controller
             $authid = \Auth::user()->id;
             $users  = User::find($authid);
 
+            dd($authid);
+
             #dd($users);
 
             $userId = HomeMaker::where('UserId', $authid)->first();
