@@ -52,7 +52,7 @@ class UserSubscriberController extends Controller
             //dd($userId->HMId);
 
             $dt              = \Carbon\Carbon::now();
-            $next_month_date = $dt->addDays(30);
+         
 
 //dd($next_month_date);
             $data = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
