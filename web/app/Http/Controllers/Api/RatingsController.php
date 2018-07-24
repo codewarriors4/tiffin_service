@@ -57,6 +57,7 @@ class RatingsController extends Controller
             return response()->json(['status' => 'failed'], 203);
         }
 
+
     }
 
     public function viewRating(Request $request){
@@ -67,6 +68,7 @@ class RatingsController extends Controller
          $review_existing_ct = Reviews::where('HomeMakerID', request('HomeMakerID'))->where('TiffinSeekerId', $ts_id->TSId)->get()
 
         return response()->json([$review_existing_ct], 200);  
+
 
     }
 
