@@ -86,6 +86,10 @@ Route::middleware('auth:api')->group(function(){
 		//Ratings
 		Route::post('createupdateratings', 'Api\RatingsController@createorUpdateRating')->name('createupdateratings');
 		Route::post('viewhmratings', 'Api\RatingsController@viewHMRatings')->name('viewHMRatings');
+		Route::post('viewhmrating', 'Api\RatingsController@viewRating')->name('viewRating');
+
+
+		
 
 		
 
@@ -104,6 +108,8 @@ Route::middleware('auth:api')->group(function(){
 		Route::post('fcmtokenstore', 'Api\UserController@storeFCMToken')->name('fcmtokenstore');
 
 		Route::post('userapprovednotfn', 'Api\UserController@userApproveFCMNotify')->name('userapprovednotfn');
+
+
 
 
 

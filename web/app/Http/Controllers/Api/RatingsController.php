@@ -56,6 +56,22 @@ class RatingsController extends Controller
         } catch (Exception $e) {
             return response()->json(['status' => 'failed'], 203);
         }
+
+    }
+
+    public function viewRating(Request $request){
+
+         $authid = \Auth::user()->id;
+         $ts_id  = TiffinSeeker::where('UserId', $authid)->first();
+       
+
+         $review_existing_ct = Reviews::where('HomeMakerID', request('HomeMakerID'))->where('TiffinSeekerId', $ts_id->TSId)->get()
+
+        return response()->json([$review_existing_ct], 200);  
+
+
+
+
     }
 
     public function calcAvgRatings($HMId)
