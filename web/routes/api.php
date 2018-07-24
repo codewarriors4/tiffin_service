@@ -86,10 +86,12 @@ Route::middleware('auth:api')->group(function(){
 		//Ratings
 		Route::post('createupdateratings', 'Api\RatingsController@createorUpdateRating')->name('createupdateratings');
 		Route::post('viewhmratings', 'Api\RatingsController@viewHMRatings')->name('viewHMRatings');
+
 		Route::post('viewhmrating', 'Api\RatingsController@viewRating')->name('viewRating');
 
 
 		
+
 
 		
 
