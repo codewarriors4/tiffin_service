@@ -67,7 +67,7 @@ class RatingsController extends Controller
 
          $review_existing_ct = Reviews::where('HomeMakerID', request('HomeMakerID'))->where('TiffinSeekerId', $ts_id->TSId)->get();
 
-        return response()->json([$review_existing_ct], 200);  
+        return response()->json($review_existing_ct, 200);  
 
 
     }
