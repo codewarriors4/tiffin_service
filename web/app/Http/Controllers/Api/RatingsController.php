@@ -85,20 +85,20 @@ class RatingsController extends Controller
         if (count($rating_count_individual) > 0) {
             foreach ($rating_count_individual as $key => $value) {
 
-                if ($value["ReviewCount"] == 1) {
-                    $rating_array["1.0"] = $rating_array["1"] + 1;
+                if ($value["ReviewCount"] == 1.0) {
+                    $rating_array["1.0"] = $rating_array["1.0"] + 1;
                 } else if ($value["ReviewCount"] == 1.5) {
                     $rating_array["1.5"] = $rating_array["1.5"] + 1;
 
-                } else if ($value["ReviewCount"] == 2) {
+                } else if ($value["ReviewCount"] == 2.0) {
 
-                    $rating_array["2.0"] = $rating_array["2"] + 1;
+                    $rating_array["2.0"] = $rating_array["2.0"] + 1;
 
                 } else if ($value["ReviewCount"] == 2.5) {
 
                     $rating_array["2.5"] = $rating_array["2.5"] + 1;
 
-                } else if ($value["ReviewCount"] == 3) {
+                } else if ($value["ReviewCount"] == 3.0) {
 
                     $rating_array["3.0"] = $rating_array["3.0"] + 1;
 
@@ -106,7 +106,7 @@ class RatingsController extends Controller
 
                     $rating_array["3.5"] = $rating_array["3.5"] + 1;
 
-                } else if ($value["ReviewCount"] == 4) {
+                } else if ($value["ReviewCount"] == 4.0) {
 
                     $rating_array["4.0"] = $rating_array["4.0"] + 1;
 
@@ -114,7 +114,7 @@ class RatingsController extends Controller
 
                     $rating_array["4.5"] = $rating_array["4.5"] + 1;
 
-                } else if ($value["ReviewCount"] == 5) {
+                } else if ($value["ReviewCount"] == 5.0) {
 
                     $rating_array["5.0"] = $rating_array["5.0"] + 1;
 
