@@ -118,6 +118,12 @@ class AdminController extends Controller
 
     }
 
+    public function updateUser(Request $request){
+
+        
+
+    }
+
 
 
 
