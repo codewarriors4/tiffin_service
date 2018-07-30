@@ -15,18 +15,23 @@
     <body>
         <div class="flex-center position-ref full-height">
 
-        <h>Hello {{$tsname}},<h>
-        <h> Your payment was successful, below is a summary of the payment details to TiffinService <h>
-        <p> Subscribed to : {{$data["hmname"]}} <p>
+        <h>Hello {{$data["drname"]}},<h>
+        <p>Transaction id :  {{$data["transacId"]}} </p>
+        <p>Your delivery for the following subscriber is confirmed. Below is the delivery address and subscription details</p> Delivery address: </p>
+        <p> Street: {{$data["street"]}} </p>
+        <p> City: {{$data["city"]}} </p>
+        <p> Province: {{$data["province"]}} </p>
+        <p> ZipCode: {{$data["ZipCode"]}} </p>
+        <p> Country : {{$data["Country"]}} </p>
+        </br>
+        </br>
+
+        </p> Delivery for subscription period: </p>
 
         <p>Subscription start date: {{$data["subsc_start_date"]}}</p>
         <p>Subscription end date: {{$data["subsc_end_date"]}}</p>
 
-        <p> Package name: {{$data["packageTitle"]}}</p>
-        <p> Package cost : {{$data["paymentSubTotal"]}} CAD </p>
-        <p> Tax : {{$data["tax"]}} CAD</p>
-        <p> Total cost : {{$data["totalcost"]}} CAD </p>
-        <p> Your transaction id for refernce is {{$data["transacId"]}}</p>
+        
         <p> Thanks - TiffinService Team </p>
 
         </div>

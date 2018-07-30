@@ -6,13 +6,14 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Mail\Mailer;
 use TiffinService\HomeMaker;
+use TiffinService\HomeMakerPackages;
 use TiffinService\Http\Controllers\Controller;
-use TiffinService\Http\Requests\CardValidator;
-use TiffinService\User;
-use TiffinService\UserMobInfo;
 use TiffinService\Payment;
 use TiffinService\Subscription;
 use TiffinService\TiffinSeeker;
+use TiffinService\User;
+use TiffinService\UserMobInfo;
+use TiffinService\DriverTasks;
 
 class PaymentController extends Controller
 {
@@ -114,11 +115,15 @@ class PaymentController extends Controller
 
     }
 
-    public function Payment(CardValidator $request) // shows the cart summary
+    public function Payment(Request $request) // shows the cart summary
 
     {
 
         try {
+
+            $tsname = \Auth::user()->UserFname . " " . \Auth::user()->UserLname;
+
+            //dd('asdasdadsadasdasdasd');
 
             $expiration_year  = "20" . request('expiration_year');
             $homemaker_id     = request('HomeMakerId');
@@ -178,13 +183,36 @@ class PaymentController extends Controller
 
             $user_details = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('homemaker.HMId', $homemaker_id)->first();
 
+            $hmname = $user_details->UserFname . " " . $user_details->UserLname;
 
+            $package_details = HomeMakerPackages::where("HMPId", $subsPackageId)->first();
+
+            $transacId = $payment->PId;
+
+            $driver = User::where("UserType", 3)->inRandomOrder()->first();
+
+            $driverTask = new DriverTasks;
+
+            $driverTask->driverUserIdFk = $driver->id;
+            $driverTask->paymentIdFk = $payment->PId;
+            $driverTask->save();
+
+
+
+            //$formatted_subscription_start_date
+
+//Payment notifiication email
+            $data = array("subsc_start_date" => $subscription_start_date->format('d F Y'), "subsc_end_date" => $subscription_end_date->format('d F Y'), "tsname" => $tsname, "hmname" => $hmname, "packageTitle" => $package_details->HMPName, "paymentSubTotal" => $payment->PSubTotal, "tax" => $payment->PTax, "totalcost" => $payment->PAmt, "transacId" => $transacId);
+
+            \Mail::send('mails.payment_notification_email', ['data' => $data, 'tsname' => $tsname], function ($message) {
+                $message->to(\Auth::user()->email)
+                    ->subject('Payment for package subscription complete !!');
+                $message->from('codewarriors4@gmail.com', 'TiffinService');
+            });
 
             $fcmtokens = UserMobInfo::where('userID', $user_details->id)->select("fcmtoken")->get();
 
             $device_token_array = array();
-
-
 
             if ($fcmtokens->count() > 0) {
 
@@ -192,8 +220,8 @@ class PaymentController extends Controller
                     array_push($device_token_array, $token->fcmtoken);
                 }
 
-                $title   = "You have got a new Subscription ";
-                $body    = \Auth::user()->UserFname." subscribed to one of your packages !";
+                $title = "You have got a new Subscription ";
+                $body  = \Auth::user()->UserFname . " subscribed to one of your packages !";
 
                 $feedbck = \PushNotification::setService('fcm')
                     ->setMessage([
@@ -212,11 +240,31 @@ class PaymentController extends Controller
                     ->send()
                     ->getFeedback();
 
-               // dd($feedbck);
+                $data = array("subsc_start_date" => $subscription_start_date->format('d F Y'), 
+                    "subsc_end_date" => $subscription_end_date->format('d F Y'), 
+                    "tsname" => $tsname, 
+                    "transacId" => $transacId,
+                    "street" => \Auth::user()->UserStreet, 
+                    "city" => \Auth::user()->UserCity, 
+                    "province" => \Auth::user()->UserProvince, 
+                    "ZipCode" => \Auth::user()->UserZipCode, 
+                    "Country" => \Auth::user()->UserCountry, 
+                    "transacId" => $transacId,
+                    "drname" => $driver->UserFname . " " . $driver->UserLname);
+
+                $driver_name = $driver->UserFname . " " . $driver->UserLname;
+
+                \Mail::send('mails.driver_email_notifin', ['data' => $data], function ($message) use ($driver)  {
+                    $message->to($driver->email,$driver->UserFname . " " . $driver->UserLname)
+                        ->subject('New Delivery task !!');
+                    $message->from('codewarriors4@gmail.com', 'TiffinService');
+                });
+
+                // dd($feedbck);
 
             }
 
-            /*                if (count($cart) > 0) {
+           /*                if (count($cart) > 0) {
 
             foreach ($cart as $key => $value) {
 
@@ -228,10 +276,6 @@ class PaymentController extends Controller
 
             }*/
 
-            /*           Mail::to(\Auth::user()->email)->send();
-
-            $message = "Payment complete";
-            mail('\Auth::user()->email', 'Payment complete', $message);*/
             return response()->json(['status' => 'success'], 200);
 
         } catch (Exception $e) {
