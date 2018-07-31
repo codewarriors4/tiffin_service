@@ -43,7 +43,7 @@ class AdminController extends Controller
             $Is_Admin = \Auth::user()->UserType;
  
 
-            if($Is_Admin == 3)
+            if($Is_Admin == 2)
             {
 
                 return redirect()->route('manageusers');
@@ -51,7 +51,7 @@ class AdminController extends Controller
             }
             else
             {
-                Auth::logout();
+                \Auth::logout();
                 return redirect()->route('adminloginget')->withInput()->withErrors("You are not Authorised");
             }
         }
