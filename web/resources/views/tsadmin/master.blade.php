@@ -105,19 +105,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <ul class="sidebar-menu">
             <!-- Optionally, you can add icons to the links -->
 
-            <li  >
-              <a href="javascript:void(0)">
-                   <i class='fa fa-link'></i> <span>Manage Users</span> <i class="fa fa-angle-left pull-right"></i>
-              </a>
-              <ul class="treeview-menu">
-                <li >
-                     <a  href="{{ URL::route('manageusers') }">View users</a></li>
-                <li>
-                    <a href="{{ URL::route('showContentPages') }}">Create user</a></li>         
-              </ul>
-            </li>
+            <li>
+                    <a href="{{ URL::route('manageusers') }}"><i class='fa fa-link'></i> <span>Manage users</span></a></li>
 
-       
             
             <!-- <li><a href="{{URL::route('logout')}}"><i class='fa fa-link'></i> <span>Logout</span></a></li> -->
           </ul><!-- /.sidebar-menu -->
