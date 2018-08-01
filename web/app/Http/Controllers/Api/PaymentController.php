@@ -183,7 +183,7 @@ class PaymentController extends Controller
 
 //Final success response to the server
 
-            $data = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')
+            $response = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')
             ->join('subscription', 'subscription.HomeMakerId', '=', 'homemaker.HMId')
             ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
             ->join('payment', 'payment.SubscID', '=', 'subscription.SubId')            
@@ -289,7 +289,7 @@ class PaymentController extends Controller
             }*/
 
 
-            return response()->json($data, 200);
+            return response()->json($response, 200);
 
         } catch (Exception $e) {
 
