@@ -179,6 +179,20 @@ class PaymentController extends Controller
             $payment->SubscID = $subscription->SubId;
             $payment->save();
 
+            $payment_id = $payment->PId;
+
+//Final success response to the server
+
+            $data = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')
+            ->join('subscription', 'subscription.HomeMakerId', '=', 'homemaker.HMId')
+            ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
+            ->join('payment', 'payment.SubscID', '=', 'subscription.SubId')            
+            ->where('subscription.TiffinSeekerId', $tsId->TSId)
+            ->where('payment.PId', $payment_id)
+            ->get();
+
+           
+
             Subscription::where('SubId', $subscription->SubId)->update(['SubStatus' => 1]);
 
             $user_details = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('homemaker.HMId', $homemaker_id)->first();
@@ -196,8 +210,6 @@ class PaymentController extends Controller
             $driverTask->driverUserIdFk = $driver->id;
             $driverTask->paymentIdFk = $payment->PId;
             $driverTask->save();
-
-
 
             //$formatted_subscription_start_date
 
@@ -276,7 +288,8 @@ class PaymentController extends Controller
 
             }*/
 
-            return response()->json(['status' => 'success'], 200);
+
+            return response()->json($data, 200);
 
         } catch (Exception $e) {
 
