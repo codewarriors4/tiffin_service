@@ -2,7 +2,7 @@
 
 return [
     'options' => [
-        'searchradius' => '20',
+        'searchradius' => '2',
 
     ]
 ];
