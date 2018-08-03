@@ -112,23 +112,9 @@ Route::middleware('auth:api')->group(function(){
 		Route::post('userapprovednotfn', 'Api\UserController@userApproveFCMNotify')->name('userapprovednotfn');
 
 
+		/*get homemaker stats on dashboard */
 
-
-
-
-
-
-		
-
-
-
-
-
-
-
-
-
-
+		Route::post('gethmstats', 'Api\UserController@getHomeMakerStats')->name('gethmstats');
 
 
 
