@@ -11,6 +11,19 @@ class UserProfileController extends Controller
 {
     private $client;
 
+
+    public function getCUrrentUserDetails(Request $request){
+
+         $authid = \Auth::user()->id;
+
+       //  dd( \Auth::user()->email );
+
+         $users = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('id',$authid)->first();
+
+         return response()->json($users,200);
+
+    }
+
     public function tiffinSeekercreate(Request $request)
     {
     	try {

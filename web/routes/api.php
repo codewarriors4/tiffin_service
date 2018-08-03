@@ -37,9 +37,9 @@ Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm
 
 Route::middleware('auth:api')->group(function(){
 
-		Route::post('/user', function() {
-	        return response()->json(request()->user());
-	    });
+		
+
+		Route::post('user', 'Api\UserProfileController@getCUrrentUserDetails');
 
 
 		Route::post('logout', 'Api\Auth\LoginController@logout');
