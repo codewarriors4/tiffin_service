@@ -122,7 +122,7 @@ class HomeMakerPackagesController extends Controller
     		
 
     		$home_maker_packages = HomeMaker::join('users','users.id','=','homemaker.UserId')
-    		->join('homemakerpackages','homemaker.HMId','=','homemakerpackages.HomeMakerId')->where('id',$user_id)->orderBy('users.id', 'desc')->get();
+    		->join('homemakerpackages','homemaker.HMId','=','homemakerpackages.HomeMakerId')->where('id',$user_id)->orderBy('homemakerpackages.created_at', 'desc')->get();
 
 
 
