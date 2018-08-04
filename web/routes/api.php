@@ -111,12 +111,15 @@ Route::middleware('auth:api')->group(function(){
 
 		Route::post('userapprovednotfn', 'Api\UserController@userApproveFCMNotify')->name('userapprovednotfn');
 
-
 		/*get homemaker stats on dashboard */
 
 		Route::post('gethmstats', 'Api\UserController@getHomeMakerStats')->name('gethmstats');
 
+		/*user FCM settings management */
 
+		Route::post('getuserfcmsettings', 'Api\UserController@getUserFCMSettings')->name('getuserfcmsettings');
+
+		Route::post('storeuserfcmsettings', 'Api\UserController@storeUserFCMSettings')->name('storeuserfcmsettings');
 
 
 

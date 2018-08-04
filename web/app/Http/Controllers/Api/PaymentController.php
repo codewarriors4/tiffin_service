@@ -14,6 +14,8 @@ use TiffinService\TiffinSeeker;
 use TiffinService\User;
 use TiffinService\UserMobInfo;
 use TiffinService\DriverTasks;
+use TiffinService\UserFCMSettings;
+
 
 class PaymentController extends Controller
 {
@@ -136,8 +138,13 @@ class PaymentController extends Controller
             $hst           = request('hst');
             $total_cost    = request('total');
             $subsPackageId = request('HMPid');
+            $admin_approval_notify = \Config::get('constants.options.Admin_approval_notify');
+            $send_push_notifn = 0; // 0:send notify 1: dont send
+
+            $user_details = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('homemaker.HMId', $homemaker_id)->first();
 
             $dt = Carbon::now();
+
 
             $subscription_start_date = $dt;
             $subscription_end_date   = Carbon::now()->addDays(30);
@@ -194,8 +201,7 @@ class PaymentController extends Controller
            
 
             Subscription::where('SubId', $subscription->SubId)->update(['SubStatus' => 1]);
-
-            $user_details = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('homemaker.HMId', $homemaker_id)->first();
+            
 
             $hmname = $user_details->UserFname . " " . $user_details->UserLname;
 
@@ -226,11 +232,44 @@ class PaymentController extends Controller
 
             $device_token_array = array();
 
-            if ($fcmtokens->count() > 0) {
+            $data = array("subsc_start_date" => $subscription_start_date->format('d F Y'), 
+                    "subsc_end_date" => $subscription_end_date->format('d F Y'), 
+                    "tsname" => $tsname, 
+                    "transacId" => $transacId,
+                    "street" => \Auth::user()->UserStreet, 
+                    "city" => \Auth::user()->UserCity, 
+                    "province" => \Auth::user()->UserProvince, 
+                    "ZipCode" => \Auth::user()->UserZipCode, 
+                    "Country" => \Auth::user()->UserCountry, 
+                    "drname" => $driver->UserFname . " " . $driver->UserLname);
+
+                $driver_name = $driver->UserFname . " " . $driver->UserLname;
+
+            //check if user fcm setting allows to send        
+          
+
+            $getfcmsettings = UserFCMSettings::where("UserIdFk",$user_details->id)->where("MFCMSIdFk",$admin_approval_notify)->select("status")->first();
+
+            
+                if($getfcmsettings == null){
+                    $send_push_notifn = 0;
+                }
+                else if($getfcmsettings->status == 0){
+                    $send_push_notifn = 0;
+                }
+                else{
+                    $send_push_notifn = 1;
+
+                }    
+           
+
+
+            if ($fcmtokens->count() > 0 &&  $send_push_notifn == 0 ) {
 
                 foreach ($fcmtokens as $key => $token) {
                     array_push($device_token_array, $token->fcmtoken);
                 }
+               // dd($device_token_array);
 
                 $title = "You have got a new Subscription ";
                 $body  = \Auth::user()->UserFname . " subscribed to one of your packages !";
@@ -251,30 +290,17 @@ class PaymentController extends Controller
                     ->setDevicesToken($device_token_array)
                     ->send()
                     ->getFeedback();
-
-                $data = array("subsc_start_date" => $subscription_start_date->format('d F Y'), 
-                    "subsc_end_date" => $subscription_end_date->format('d F Y'), 
-                    "tsname" => $tsname, 
-                    "transacId" => $transacId,
-                    "street" => \Auth::user()->UserStreet, 
-                    "city" => \Auth::user()->UserCity, 
-                    "province" => \Auth::user()->UserProvince, 
-                    "ZipCode" => \Auth::user()->UserZipCode, 
-                    "Country" => \Auth::user()->UserCountry, 
-                    "transacId" => $transacId,
-                    "drname" => $driver->UserFname . " " . $driver->UserLname);
-
-                $driver_name = $driver->UserFname . " " . $driver->UserLname;
-
-                \Mail::send('mails.driver_email_notifin', ['data' => $data], function ($message) use ($driver)  {
-                    $message->to($driver->email,$driver->UserFname . " " . $driver->UserLname)
-                        ->subject('New Delivery task !!');
-                    $message->from('codewarriors4@gmail.com', 'TiffinService');
-                });
+      
 
                 // dd($feedbck);
 
             }
+
+                      \Mail::send('mails.driver_email_notifin', ['data' => $data], function ($message) use ($driver)  {
+                    $message->to($driver->email,$driver->UserFname . " " . $driver->UserLname)
+                        ->subject('New Delivery task !!');
+                    $message->from('codewarriors4@gmail.com', 'TiffinService');
+                });
 
            /*                if (count($cart) > 0) {
 

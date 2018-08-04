@@ -34,16 +34,17 @@
     function modify_request(id){
 
     //  alert(id);
-
-      var url = "http://localhost/tiffin_service/web/public/approve";
+      var domain = window.location.hostname
+      var url = domain+"/approve";
       var formData = {id:id};
 
       $.get( url+'/'+id, function( data ) {
-  
       
-          window.location = "manageusers";
+         
       
-});
+}).done(function() {
+     window.location = "manageusers";
+  });
 
     
     }
