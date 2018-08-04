@@ -33,7 +33,7 @@ class UserSubscriberController extends Controller
                 ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
                 ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
                 ->where('subscription.SubEndDate','>=', $dt->format('Y-m-d')." 00:00:00")
-                ->where('subscription.HomeMakerId', $userId->HMId)->get();
+                ->where('subscription.HomeMakerId', $userId->HMId)->orderBy('subscription.created_at', 'desc')->get();
 
             return response()->json($data, 200);
 
@@ -63,7 +63,7 @@ class UserSubscriberController extends Controller
                 ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
                 ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
                 ->whereBetween('subscription.SubEndDate', [$dt->format('Y-m-d')." 00:00:00", $dt->addDays(30)->format('Y-m-d')." 23:59:59"])
-                ->where('subscription.HomeMakerId', $userId->HMId)->get();
+                ->where('subscription.HomeMakerId', $userId->HMId)->orderBy('subscription.created_at', 'desc')->get();
 
 
             return response()->json($data, 200);
@@ -93,7 +93,7 @@ class UserSubscriberController extends Controller
                 ->join('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
                 ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
                 ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
-                ->where('subscription.HomeMakerId', $userId->HMId)->get();
+                ->where('subscription.HomeMakerId', $userId->HMId)->orderBy('subscription.created_at', 'desc')->get();
 
             return response()->json($data, 200);
 
@@ -178,7 +178,7 @@ class UserSubscriberController extends Controller
                 ->leftJoin('users as u2', 'u2.id', '=', 'tiffinseeker.UserId')
                 ->leftJoin('payment', 'payment.SubscID', '=', 'subscription.SubId')
                 ->select('u2.id as TiffinSeekerUserId', 'u2.email as TiffinSeekerEmail', 'u2.isEmailVerified as TiffinSeekerisEmailVerified', 'u2.isActive as TiffinSeekerisActive', 'u2.UserFname as TiffinSeekerUserFname', 'u2.UserLname as TiffinSeekerUserLname', 'u2.UserType as TiffinSeekerUserType', 'u2.UserPhone as TiffinSeekerUserPhone', 'u2.UserStreet as TiffinSeekerUserStreet', 'u2.UserCountry as TiffinSeekerUserCountry', 'u2.UserProvince as TiffinSeekerUserProvince', 'u2.UserCity as TiffinSeekerUserCity', 'u2.UserZipCode as TiffinSeekerUserZipCode', 'u2.UserCompanyName as TiffinSeekerUserCompanyName', 'u2.isBlocked as TiffinSeekerisBlocked', 'u1.*','subscription.*','payment.*','homemaker.*','tiffinseeker.*','homemakerpackages.*')
-                ->where('subscription.TiffinSeekerId', $userId->TSId)
+                ->where('subscription.TiffinSeekerId', $userId->TSId)->orderBy('subscription.created_at', 'desc')
                 ->get();
               //  dd($userId->TSId);  
 
