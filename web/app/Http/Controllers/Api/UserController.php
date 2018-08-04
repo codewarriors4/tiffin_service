@@ -76,6 +76,7 @@ class UserController extends Controller
 
          $userId = HomeMaker::where('UserId', \Auth::user()->id)->first();
 
+
         $subscription_count = Subscription::where('subscription.HomeMakerId', $userId->HMId)
         ->where('subscription.SubEndDate','>=', $dt->format('Y-m-d')." 00:00:00")
         ->count();
@@ -87,6 +88,7 @@ class UserController extends Controller
 
         $total_reviews = Reviews::where('review.HomeMakerID', $userId->HMId)->count();
 
+        
         $total_no_packages = HomeMakerPackages::where('homemakerpackages.HomeMakerId', $userId->HMId)->count();
 
         $response = array("total_active_subscribers"=>$subscription_count,"recent_subscription_count"=>$recent_subscription_count,"total_reviews"=>$total_reviews,"total_no_packages"=>$total_no_packages);

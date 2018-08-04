@@ -14,13 +14,34 @@ class UserProfileController extends Controller
 
     public function getCUrrentUserDetails(Request $request){
 
-         $authid = \Auth::user()->id;
+        try {
 
-       //  dd( \Auth::user()->email );
+             $authid = \Auth::user()->id;
 
-         $users = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('id',$authid)->first();
+             $users = array();
 
-         return response()->json($users,200);
+           //  dd( \Auth::user()->email );
+
+             if(\Auth::user()->UserType == 0){
+                $users = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')->where('id',$authid)->first();
+
+             }
+             else{
+                         $users = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('id',$authid)->first();
+
+             }
+
+
+             return response()->json($users,200);
+            
+        } catch (Exception $e) {
+
+            return response()->json(['status'=>'failed'],203);
+
+            
+        }
+
+        
 
     }
 
