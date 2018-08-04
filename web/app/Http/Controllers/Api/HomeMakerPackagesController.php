@@ -174,7 +174,7 @@ class HomeMakerPackagesController extends Controller
 
     		$homemaker_id =request('HMId');
 
-    		$home_maker_packages = HomeMaker::join('homemakerpackages','homemaker.HMId','=','homemakerpackages.HomeMakerId')->where('HMId',$homemaker_id)->get();
+    		$home_maker_packages = HomeMaker::join('homemakerpackages','homemaker.HMId','=','homemakerpackages.HomeMakerId')->where('HMId',$homemaker_id)->orderBy('homemakerpackages.created_at', 'desc')->get();
 
 
     		return response()->json(['home_maker_packages'=>$home_maker_packages],200); 
