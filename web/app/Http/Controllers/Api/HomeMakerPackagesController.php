@@ -173,7 +173,7 @@ class HomeMakerPackagesController extends Controller
     		try{
 
     		$homemaker_id =request('HMId');
-//s
+
     		$home_maker_packages = HomeMaker::join('homemakerpackages','homemaker.HMId','=','homemakerpackages.HomeMakerId')->where('HMId',$homemaker_id)->orderBy('homemakerpackages.created_at', 'desc')->get();
 
 

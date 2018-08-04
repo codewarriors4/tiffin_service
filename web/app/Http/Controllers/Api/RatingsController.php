@@ -153,7 +153,7 @@ class RatingsController extends Controller
                 ->leftJoin('tiffinseeker', 'tiffinseeker.TSId', '=', 'review.TiffinSeekerId')
                 ->leftJoin('users as u2', 'u2.id', '=', 'tiffinseeker.UserId')
                 ->select('u1.id as HomeMakerUserId', 'u1.email as HomeMakerEmail', 'u1.isEmailVerified as HomeMakerisEmailVerified', 'u1.isActive as HomeMakerisActive', 'u1.UserFname as HomeMakerUserFname', 'u1.UserLname as HomeMakerUserLname', 'u1.UserType as HomeMakerUserType', 'u1.UserPhone as HomeMakerUserPhone', 'u1.UserStreet as HomeMakerUserStreet', 'u1.UserCountry as HomeMakerUserCountry', 'u1.UserProvince as HomeMakerUserProvince', 'u1.UserCity as HomeMakerUserCity', 'u1.UserZipCode as HomeMakerUserZipCode', 'u1.UserCompanyName as HomeMakerUserCompanyName', 'u1.isBlocked as HomeMakerisBlocked', 'u2.*', 'review.*')
-                ->where('HomeMakerID', $hmID)->get();
+                ->where('HomeMakerID', $hmID)->orderBy('review.updated_at', 'desc')->get();
 
             return response()->json($reviews, 200);
 
