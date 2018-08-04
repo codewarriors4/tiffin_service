@@ -180,7 +180,9 @@ class UserSubscriberController extends Controller
                 ->select('u2.id as TiffinSeekerUserId', 'u2.email as TiffinSeekerEmail', 'u2.isEmailVerified as TiffinSeekerisEmailVerified', 'u2.isActive as TiffinSeekerisActive', 'u2.UserFname as TiffinSeekerUserFname', 'u2.UserLname as TiffinSeekerUserLname', 'u2.UserType as TiffinSeekerUserType', 'u2.UserPhone as TiffinSeekerUserPhone', 'u2.UserStreet as TiffinSeekerUserStreet', 'u2.UserCountry as TiffinSeekerUserCountry', 'u2.UserProvince as TiffinSeekerUserProvince', 'u2.UserCity as TiffinSeekerUserCity', 'u2.UserZipCode as TiffinSeekerUserZipCode', 'u2.UserCompanyName as TiffinSeekerUserCompanyName', 'u2.isBlocked as TiffinSeekerisBlocked', 'u1.*','subscription.*','payment.*','homemaker.*','tiffinseeker.*','homemakerpackages.*')
                 ->where('subscription.TiffinSeekerId', $userId->TSId)
                 ->get();
-              //  dd($userId->TSId);          
+              //  dd($userId->TSId);  
+
+
 
 
             if($data->count() > 0){
@@ -197,7 +199,7 @@ class UserSubscriberController extends Controller
 
 
 
-                $record->driverName = $driver->UserFname." ".$driver->UserFLname;
+                $record->driverName = $driver->UserFname." ".$driver->UserLname;
                 $record->driverPhone = $driver->UserPhone;
                 $record->driverUniqueCode = $driver->id;
 
