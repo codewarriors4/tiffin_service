@@ -19,12 +19,20 @@ class RatingsController extends Controller
             $authid = \Auth::user()->id;
             $ts_id  = TiffinSeeker::where('UserId', $authid)->first();
 
+            $messages = array(
+                "HomeMakerID.required"                   => "Something went wrong !",
+                "ReviewDesc.required"                   => "Please enter a review description",
+                "ReviewCount.required"                    => "Please choose a rating number",
+               
+            );
+
             $this->validate($request, [
 
                 'HomeMakerID' => 'required',
                 'ReviewDesc'  => 'required',
                 'ReviewCount' => 'required',
-            ]);
+
+            ],$messages);
 
             $review_existing_ct = Reviews::where('HomeMakerID', request('HomeMakerID'))->where('TiffinSeekerId', $ts_id->TSId)->get();
 
@@ -54,7 +62,7 @@ class RatingsController extends Controller
             return response()->json(['status' => 'success'], 200);
 
         } catch (Exception $e) {
-            return response()->json(['status' => 'failed'], 203);
+            return response()->json($e->errors(), 203);
         }
 
 

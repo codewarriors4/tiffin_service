@@ -22,7 +22,7 @@ class HomeMakerPackages extends Model
      * @var array
      */
     protected $fillable = [
-        'HMPName','HMPDesc','HMPCost','HomeMakerId',
+        'HMPName','HMPDesc','HMPCost','HomeMakerId','HomeMakerId',
     ];
 
     /**
