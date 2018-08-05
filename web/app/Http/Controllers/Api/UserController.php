@@ -76,8 +76,10 @@ class UserController extends Controller
 
             $dt = \Carbon\Carbon::now();
 
+ 
+
             $recent_subscription_count = Subscription::where('subscription.HomeMakerId', $userId->HMId)
-                ->whereBetween('subscription.created_at', [$dt->format('Y-m-d') . " 00:00:00", $dt->subDays(7)->format('Y-m-d') . " 23:59:59"])->count();
+                ->whereBetween('subscription.created_at', [$dt->subDays(7)->format('Y-m-d') . " 23:59:59", $dt->addDays(8)->format('Y-m-d') . " 23:59:59"])->count();
 
             $total_reviews = Reviews::where('review.HomeMakerID', $userId->HMId)->count();
 
