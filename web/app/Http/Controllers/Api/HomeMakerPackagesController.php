@@ -18,6 +18,27 @@ class HomeMakerPackagesController extends Controller
 
 			$user_id = \Auth::user()->id;
 
+            $authid = \Auth::user()->id;
+            if ($request->hasFile('file')) {
+
+                #$dir=.$request->user()->id;
+                $request->file->storeAs('public/upload/' . $request->user()->id, 'license' . '.' . $request->file->getClientOriginalExtension());
+                $image = 'license.' . $request->file->getClientOriginalExtension();
+
+                $homemaker = HomeMaker::where('UserId', $authid)->update(['HMFoodLicense' => $image]);
+
+            } else {
+
+                $homemaker = HomeMaker::where('UserId', $authid)->first();
+
+                if (($homemaker->HMFoodLicense) == null || ($homemaker->HMFoodLicense) == '') {
+                    $this->validate($request, [
+                        'HMPFoodImage' => 'required',
+                    ]);
+                }
+
+            }
+
     	    $this->validate($request,[
         		
         		'HMPName' => 'required',

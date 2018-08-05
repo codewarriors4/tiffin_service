@@ -9,9 +9,8 @@ use TiffinService\Http\Controllers\Controller;
 use TiffinService\Reviews;
 use TiffinService\Subscription;
 use TiffinService\User;
-use TiffinService\UserMobInfo;
 use TiffinService\UserFCMSettings;
-
+use TiffinService\UserMobInfo;
 
 class UserController extends Controller
 {
@@ -76,8 +75,6 @@ class UserController extends Controller
 
             $dt = \Carbon\Carbon::now();
 
- 
-
             $recent_subscription_count = Subscription::where('subscription.HomeMakerId', $userId->HMId)
                 ->whereBetween('subscription.created_at', [$dt->subDays(7)->format('Y-m-d') . " 23:59:59", $dt->addDays(8)->format('Y-m-d') . " 23:59:59"])->count();
 
@@ -103,7 +100,7 @@ class UserController extends Controller
 
         try {
 
-            $fcm_settings = UserFCMSettings::join('masterfcmsettings', 'masterfcmsettings.MFCMSId', '=', 'UserFCMSettings.MFCMSIdFk')->where('UserIdFk', $userid)->get();         
+            $fcm_settings = UserFCMSettings::join('masterfcmsettings', 'masterfcmsettings.MFCMSId', '=', 'UserFCMSettings.MFCMSIdFk')->where('UserIdFk', $userid)->get();
 
             return response()->json($fcm_settings, 200);
 
@@ -119,51 +116,44 @@ class UserController extends Controller
     {
 
         $userid = \Auth::user()->id;
-        
-        $final_array = request("preference");
+
+
+        $MFCMSId  = request("MFCMSIdFk");
+        $status   = request("status");
+      //  $UserIdFk = request("UserIdFk");
 
         //$array1 = array("MFCMSId" => 1, "status" => 1, "UserIdFk" => $userid);
         //$array2 = array("MFCMSId" => 2, "status" => 1, "UserIdFk" => $userid);
 
-      //  $final_array = array(0=>$array1,1 => $array2);   
+        //  $final_array = array(0=>$array1,1 => $array2);
 
- 
         try {
 
-            if (count($final_array) > 0) {
+            $check_if_exists = UserFCMSettings::where("UserIdFk", $userid)->where("MFCMSIdFk", $MFCMSId)->get();
 
-                foreach ($final_array as $preference) {
+            if ($check_if_exists->count() > 0) {
+                //update
+                $update = UserFCMSettings::where("UserIdFk", $userid)->where("MFCMSIdFk", $MFCMSId)->update(['status' => $status]);
 
+            } else {
+                //create new record
+                $fcm_setting = new UserFCMSettings;
 
-                    $check_if_exists = UserFCMSettings::where("UserIdFk", $userid)->where("MFCMSIdFk", $preference["MFCMSId"])->get();
-
-                    if ($check_if_exists->count() > 0) {
-                        //update
-                        $update = UserFCMSettings::where("UserIdFk", $userid)->where("MFCMSIdFk",$preference["MFCMSId"])->update(['status' => $preference["status"]]);
-
-                        } else {
-                            //create new record
-                            $fcm_setting = new UserFCMSettings;
-
-                            $fcm_setting->MFCMSIdFk = $preference["MFCMSId"];
-                            $fcm_setting->UserIdFk  = $userid;
-                            $fcm_setting->status    = $preference["status"];
-                            $fcm_setting->save();
-
-                        }
-
-                    }
-
-                }
-
-                return response()->json(['status' => 'success'], 200);
-
-            } catch (Exception $e) {
-
-                return response()->json(['status' => 'failed'], 203);
+                $fcm_setting->MFCMSIdFk = $MFCMSId;
+                $fcm_setting->UserIdFk  = $userid;
+                $fcm_setting->status    = $status;
+                $fcm_setting->save();
 
             }
+
+            return response()->json(['status' => 'success'], 200);
+
+        } catch (Exception $e) {
+
+            return response()->json(['status' => 'failed'], 203);
 
         }
 
     }
+
+}

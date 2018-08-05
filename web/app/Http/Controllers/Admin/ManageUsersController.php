@@ -23,7 +23,7 @@ class ManageUsersController extends Controller
 
       // dd(\Storage::url('upload/81/license.jpg'));
 
-        $users = User::all();
+        $users = User::orderBy('users.created_at','desc')->get();
 
         foreach ($users as $key => $user) {
 
