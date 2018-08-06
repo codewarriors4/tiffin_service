@@ -41,10 +41,10 @@ Route::get('/approve/{id}', 'AdminController@approveUser')->name('approveUser');
 
 Route::post('/updateuser/{id}', ['as' => 'updateuser', 'uses' => 'AdminController@updateUser']);
 
-Route::get('password/reset', 'Api\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.reset');
+/*Route::get('password/reset', 'Api\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.reset');
 Route::post('password/email', 'Api\Auth\ForgotPasswordController@showResetForm')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset.token');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.request');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.request');*/
 
 Route::group(array('prefix' => 'admin'), function () {
 

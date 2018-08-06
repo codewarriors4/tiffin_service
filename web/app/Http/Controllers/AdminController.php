@@ -194,7 +194,10 @@ class AdminController extends Controller
 
           //  $request->replace(['email' => request("email")]);
 
-            $forgot->sendDriverResetLinkEmail($myrequest);
+            $forgot->getResetTokenWeb($myrequest);
+
+         return redirect()->route('manageusers')->with('message', 'Password reset link mailed to the driver');
+
 
         
     }
