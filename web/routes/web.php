@@ -50,7 +50,6 @@ Route::group(array('prefix' => 'admin'), function () {
 
     Route::get('/edit/{id}', ['as' => 'editLink', 'uses' => 'AdminController@editUser']);
 
-    Route::get('/edit/{id}', ['as' => 'editLink', 'uses' => 'AdminController@editUser']);
 
     Route::get('/createdriver', ['as' => 'createDriver', 'uses' => 'AdminController@createDriver']);
 

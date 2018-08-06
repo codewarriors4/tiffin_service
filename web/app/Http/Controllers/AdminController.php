@@ -4,13 +4,9 @@ namespace TiffinService\Http\Controllers;
 
 use Illuminate\Http\Request;
 use TiffinService\Http\Controllers\Api\Auth\ForgotPasswordController;
-
 use TiffinService\User;
-use TiffinService\UserMobInfo;
-
 use TiffinService\UserFCMSettings;
-
-
+use TiffinService\UserMobInfo;
 
 class AdminController extends Controller
 {
@@ -58,17 +54,15 @@ class AdminController extends Controller
     }
 
     public function approveUser($id)
-    {    
-    
+    {
 
         $user_id = $id;
 
-       $status = User::where('id', $user_id)->update(['isActive' => 1]);
+        $status = User::where('id', $user_id)->update(['isActive' => 1]);
 
-        $user_details          = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('users.id', $user_id)->first();
-        $subs_notify = \Config::get('constants.options.New_susbcriber_notify');
-        $send_push_notifn      = 0; // 0:send notify 1: dont send
-
+        $user_details     = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('users.id', $user_id)->first();
+        $subs_notify      = \Config::get('constants.options.New_susbcriber_notify');
+        $send_push_notifn = 0; // 0:send notify 1: dont send
 
         $fcmtokens = UserMobInfo::where('userID', $user_id)->select("fcmtoken")->get();
 
@@ -76,14 +70,11 @@ class AdminController extends Controller
 
         $getfcmsettings = UserFCMSettings::where("UserIdFk", $user_details->id)->where("MFCMSIdFk", $subs_notify)->select("status")->first();
 
-
-        if($getfcmsettings == null){
+        if ($getfcmsettings == null) {
             $send_push_notifn = 0;
-        }
-        else if($getfcmsettings->status == 0){
+        } else if ($getfcmsettings->status == 0) {
             $send_push_notifn = 0;
-        }
-        else{
+        } else {
             $send_push_notifn = 1;
         }
 
@@ -114,93 +105,81 @@ class AdminController extends Controller
 
         }
 
-         return redirect()->route('manageusers');
-    
+        return redirect()->route('manageusers');
 
     }
 
-    public function editUser(Request $request)
+    public function editUser(Request $request,$id)
     {
 
-        $users = User::where("id",\Auth::user()->id)->first();
-    //   dd($users);
-        $provinces = array("AB","BC","PE","MB", "NB", "NS","ON","QC","SK","NL","NU","NT","YT");
-        return view("tsadmin.edit", array("config" => $users,"provinces"=>$provinces));
- 
-    }
+        $users = User::where("id", $id)->first();
+        //   dd($users);
+        $provinces = array("AB", "BC", "PE", "MB", "NB", "NS", "ON", "QC", "SK", "NL", "NU", "NT", "YT");
+        return view("tsadmin.edit", array("config" => $users, "provinces" => $provinces));
 
+    }
 
     public function updateUser(Request $request)
     {
-       
 
+        User::where("id", \Auth::user()->id)->update(['UserPhone' => request('UserPhone'), 'UserStreet' => request('UserStreet'), 'UserProvince' => request('UserProvince'), 'UserCity' => request('UserCity'), 'UserZipCode' => request('UserZipCode')]);
 
-            User::where("id",\Auth::user()->id)->update(['UserPhone' => request('UserPhone'), 'UserStreet' => request('UserStreet'),'UserProvince' => request('UserProvince'),'UserCity' => request('UserCity'),'UserZipCode' => request('UserZipCode')]);
-        
+        return redirect()->route('editLink', \Auth::user()->id);
 
-         return redirect()->route('editLink',\Auth::user()->id);
- 
     }
-
 
     public function createDriver(Request $request)
     {
 
-        $provinces = array("AB","BC","PE","MB", "NB", "NS","ON","QC","SK","NL","NU","NT","YT");
+        $provinces = array("AB", "BC", "PE", "MB", "NB", "NS", "ON", "QC", "SK", "NL", "NU", "NT", "YT");
 
-        return view('tsadmin.createDriver',array("provinces"=>$provinces));
+        return view('tsadmin.createDriver', array("provinces" => $provinces));
 
     }
-
-
 
     public function saveDriver(Request $request)
     {
 
+        $user = new User;
 
+        $user->email = request("email");
 
-            $user = new User;
+        $user->password = \Hash::make(str_random(8));
 
- 
+        $user->UserFname = request("UserFname");
 
-            $user->email = request("email");
+        $user->UserLname = request("UserLname");
 
-            $user->password = \Hash::make(str_random(8));
+        $user->UserPhone = request("UserPhone");
 
-            $user->UserFname = request("UserFname");
+        $user->UserStreet = request("UserStreet");
 
-            $user->UserLname = request("UserLname");
+        $user->UserProvince = request("UserProvince");
 
-            $user->UserPhone = request("UserPhone");
+        $user->UserCity    = request("UserCity");
+        $user->UserCountry = "Canada";
 
-            $user->UserStreet = request("UserStreet");
+        $user->UserZipCode = preg_replace('/\s+/', '', request("UserZipCode"));
 
-            $user->UserProvince = request("UserProvince");
+        $user->UserType        = 3;
+        $user->isEmailVerified = 1;
+        $user->isActive        = 1;
 
-            $user->UserCity = request("UserCity");
+        $user->save();
 
-            $user->UserZipCode = request("UserZipCode");
+        $forgot = new ForgotPasswordController;
 
-            $user->UserType = 3;
+        $myrequest = new \Illuminate\Http\Request();
 
-            $user->save();
+        $myrequest->setMethod('POST');
+        $myrequest->request->add(['email' => request("email")]);
 
-            $forgot = new ForgotPasswordController;
+        //  $request->replace(['email' => request("email")]);
 
-            $myrequest = new \Illuminate\Http\Request();
+        $forgot->getResetTokenWeb($myrequest);
 
-            $myrequest->setMethod('POST');
-            $myrequest->request->add(['email' => request("email")]);
+        return redirect()->route('manageusers')->with('message', 'Password reset link mailed to the driver');
 
-          //  $request->replace(['email' => request("email")]);
-
-            $forgot->getResetTokenWeb($myrequest);
-
-         return redirect()->route('manageusers')->with('message', 'Password reset link mailed to the driver');
-
-
-        
     }
-
 
 }
