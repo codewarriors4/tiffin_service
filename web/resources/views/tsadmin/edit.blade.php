@@ -19,7 +19,7 @@
 
 <div class="row">
 
-        {!! Form::Open(array("method"=>"post", "id"=>"updateUser", 'route'=>array('updateLink',$config->id) )) !!}
+        {!! Form::Open(array("method"=>"post", "id"=>"updateUser", 'route'=>array('updateuser',$config->id) )) !!}
 
           <div class="panel panel-primary">
               <div class="panel-heading">Edit Link</div>

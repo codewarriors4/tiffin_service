@@ -44,6 +44,10 @@ Manage Users
 
                     </th>
 
+                     <th>User Type
+
+                    </th>
+
                     <th>Approved ?
 
                     </th>
@@ -62,11 +66,29 @@ Manage Users
 
                 <tr id="{{ $user->UserId }}">
 
-
-
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->UserFname }}</td>
                     <td>{{ $user->UserLname }}</td>
+
+                    @if($user->UserType == 0)
+
+                    <td>TiffinSeeker</td>
+
+                    @elseif($user->UserType == 1)
+
+                    <td>HomeMaker</td>
+
+
+                    @elseif($user->UserType == 2)
+
+                     <td>Admin</td>
+
+                     @elseif($user->UserType == 3)
+
+                     <td>Driver</td>                    
+
+                     @endif  
+
                     <td>{{($user->isActive==1)?'Yes':'No'}}</td>
 
 
