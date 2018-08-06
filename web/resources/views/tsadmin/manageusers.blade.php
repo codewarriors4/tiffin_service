@@ -19,10 +19,10 @@ Manage Users
 @endif
 <div class="container-fluid">
 
-	<div class="row">
-		<div class="col-md-3">
+    <div class="row">
+        <div class="col-md-3">
 
-		</div>
+        </div>
 
 
 
@@ -32,24 +32,25 @@ Manage Users
         <table class="table table-hover">
             <thead>
                 <tr>
-                         
+
                     <th>Email
-                        
+
                     </th>
                     <th>First Name
-                     
+
                     </th>
                     <th>Last Name
-                     
+
                     </th>
 
                     <th>Approved ?
-                        
+
                     </th>
-                    
+
                     <th class="center">License</th>
                     <th class="center">License Expiry (yyyy-mm-dd)</th>
                      <th class="center">Approve</th>
+                     <th class="center">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,11 +58,11 @@ Manage Users
 
 
             @foreach($users as $user)
-            
+
                 <tr id="{{ $user->UserId }}">
-                 
-                       
-                         
+
+
+
                     <td>{{ $user->email }}</td>
                     <td>{{ $user->UserFname }}</td>
                     <td>{{ $user->UserLname }}</td>
@@ -76,32 +77,32 @@ Manage Users
                                    <a href="{{URL::to('/').$user->license}}">View</a>
                             @endif
 
-                     </td> 
+                     </td>
                      <td>{{$user->HMLicenseExpiryDate}}</td>
 
+                     <td class="center">
 
-
-                     <td class="center">                          
-                 
-                        
-                            @if($user->isActive==0 && $user->UserType == 1 )
+                            @if($user->isActive==0 && $user->UserType == 1 )s
 
                             <button id ="{{$user->id}}" class="btn btn-primary custom-width" value="sdasdasd" onclick="modify_request({{$user->id}})">Approve</button>
                             @endif
-                     
-                    </td>                   
-                   
+                    </td>
+
+                   <td class="center">
+                            <a href="{{URL::to('/admin/edit')."/".$user->id}}">Edit</a>
+                    </td>
+
                 </tr>
-                
+
             @endforeach
-           
+
             </tbody>
         </table>
-         
+
     </div>
 
     @if(($users->count())<1)
-              <h4><b> No Records Found</b></h4> 
+              <h4><b> No Records Found</b></h4>
             @endif
 
 

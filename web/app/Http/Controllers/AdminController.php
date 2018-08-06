@@ -3,6 +3,8 @@
 namespace TiffinService\Http\Controllers;
 
 use Illuminate\Http\Request;
+use TiffinService\Http\Controllers\Api\Auth\ForgotPasswordController;
+
 use TiffinService\User;
 use TiffinService\UserMobInfo;
 
@@ -117,9 +119,85 @@ class AdminController extends Controller
 
     }
 
-    public function updateUser(Request $request)
+    public function editUser(Request $request)
     {
 
+        $users = User::where("id",\Auth::user()->id)->first();
+    //   dd($users);
+        $provinces = array("AB","BC","PE","MB", "NB", "NS","ON","QC","SK","NL","NU","NT","YT");
+        return view("tsadmin.edit", array("config" => $users,"provinces"=>$provinces));
+ 
     }
+
+
+    public function updateUser(Request $request)
+    {
+       
+
+
+            User::where("id",\Auth::user()->id)->update(['UserPhone' => request('UserPhone'), 'UserStreet' => request('UserStreet'),'UserProvince' => request('UserProvince'),'UserCity' => request('UserCity'),'UserZipCode' => request('UserZipCode')]);
+        
+
+         return redirect()->route('editLink',\Auth::user()->id);
+ 
+    }
+
+
+    public function createDriver(Request $request)
+    {
+
+        $provinces = array("AB","BC","PE","MB", "NB", "NS","ON","QC","SK","NL","NU","NT","YT");
+
+        return view('tsadmin.createDriver',array("provinces"=>$provinces));
+
+    }
+
+
+
+    public function saveDriver(Request $request)
+    {
+
+
+
+            $user = new User;
+
+ 
+
+            $user->email = request("email");
+
+            $user->password = \Hash::make(str_random(8));
+
+            $user->UserFname = request("UserFname");
+
+            $user->UserLname = request("UserLname");
+
+            $user->UserPhone = request("UserPhone");
+
+            $user->UserStreet = request("UserStreet");
+
+            $user->UserProvince = request("UserProvince");
+
+            $user->UserCity = request("UserCity");
+
+            $user->UserZipCode = request("UserZipCode");
+
+            $user->UserType = 3;
+
+            $user->save();
+
+            $forgot = new ForgotPasswordController;
+
+            $myrequest = new \Illuminate\Http\Request();
+
+            $myrequest->setMethod('POST');
+            $myrequest->request->add(['email' => request("email")]);
+
+          //  $request->replace(['email' => request("email")]);
+
+            $forgot->sendDriverResetLinkEmail($myrequest);
+
+        
+    }
+
 
 }

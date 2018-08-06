@@ -64,7 +64,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Logo -->
         <a href="javascript:void(0)" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini"><b>OPS</b></span>
+          <span class="logo-mini"><b>TiffinService</b></span>
           <!-- logo for regular state and mobile devices -->
           <span class="logo-lg"><!-- <img src="../../../images/logo-ops.png" /> -->
               
@@ -106,8 +106,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <ul class="sidebar-menu">
             <!-- Optionally, you can add icons to the links -->
 
-            <li>
-                    <a href="{{ URL::route('manageusers') }}"><i class='fa fa-link'></i> <span>Manage users</span></a></li>
+           
+
+
+              <li>
+              <a href="javascript:void(0)">
+                   <i class='fa fa-link'></i> <span>Manage Website users</span> <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+
+
+              <li>
+                    <a href="{{ URL::route('createDriver') }}"></i> <span>Create Driver</span></a>
+              </li>
+
+              <li>
+                    <a href="{{ URL::route('manageusers') }}"></i> <span>View users</span></a>
+              </li>
+
+              </ul>
+            </li>
 
             
             <!-- <li><a href="{{URL::route('logout')}}"><i class='fa fa-link'></i> <span>Logout</span></a></li> -->
