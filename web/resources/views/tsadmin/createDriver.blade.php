@@ -95,7 +95,7 @@
 
 
                 <div class="row ">
-                       {!! Form::submit('Update',array('class'=>'btn btn-primary','style'=>'margin:10px')) !!}
+                       {!! Form::submit('Create',array('class'=>'btn btn-primary','style'=>'margin:10px')) !!}
                       <a class="btn btn-danger" href="{{ URL::route('manageusers') }}">Cancel</a>
                 </div>
 

@@ -15,6 +15,7 @@ Route::get('/', function () {
     \Auth::logout();
     return view('welcome');
 });
+Route::get('/success', 'AdminController@showSuccessPage')->name('success');
 
 Route::get('/admin/login', 'AdminController@showloginform')->name('adminloginget');
 Route::get('/manageusers', ['as' => 'manageusers', 'uses' => 'Admin\ManageUsersController@showusers']);
@@ -39,7 +40,6 @@ Route::get('login', function () {
 
 Route::get('/approve/{id}', 'AdminController@approveUser')->name('approveUser');
 
-Route::post('/updateuser/{id}', ['as' => 'updateuser', 'uses' => 'AdminController@updateUser']);
 
 /*Route::get('password/reset', 'Api\Auth\ForgotPasswordController@showLinkRequestForm')->name('password.reset');
 Route::post('password/email', 'Api\Auth\ForgotPasswordController@showResetForm')->name('password.email');
@@ -50,9 +50,10 @@ Route::group(array('prefix' => 'admin'), function () {
 
     Route::get('/edit/{id}', ['as' => 'editLink', 'uses' => 'AdminController@editUser']);
 
-    Route::get('/edit/{id}', ['as' => 'editLink', 'uses' => 'AdminController@editUser']);
 
     Route::get('/createdriver', ['as' => 'createDriver', 'uses' => 'AdminController@createDriver']);
+    Route::post('/updateuser/{id}', ['as' => 'updateuser', 'uses' => 'AdminController@updateUser']);
+
 
 
     Route::post('/savedriver', ['as' => 'saveDriver', 'uses' => 'AdminController@saveDriver']);

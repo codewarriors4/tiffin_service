@@ -119,10 +119,10 @@ class AdminController extends Controller
 
     }
 
-    public function editUser(Request $request)
+    public function editUser(Request $request,$id)
     {
 
-        $users = User::where("id",\Auth::user()->id)->first();
+        $users = User::where("id",$id)->first();
     //   dd($users);
         $provinces = array("AB","BC","PE","MB", "NB", "NS","ON","QC","SK","NL","NU","NT","YT");
         return view("tsadmin.edit", array("config" => $users,"provinces"=>$provinces));
@@ -130,15 +130,15 @@ class AdminController extends Controller
     }
 
 
-    public function updateUser(Request $request)
+    public function updateUser(Request $request,$id)
     {
        
 
 
-            User::where("id",\Auth::user()->id)->update(['UserPhone' => request('UserPhone'), 'UserStreet' => request('UserStreet'),'UserProvince' => request('UserProvince'),'UserCity' => request('UserCity'),'UserZipCode' => request('UserZipCode')]);
+            User::where("id",$id)->update(['UserPhone' => request('UserPhone'), 'UserStreet' => request('UserStreet'),'UserProvince' => request('UserProvince'),'UserCity' => request('UserCity'),'UserZipCode' => preg_replace('/\s+/', '', request("UserZipCode"))]);
         
 
-         return redirect()->route('editLink',\Auth::user()->id);
+         return redirect()->route('editLink',$id);
  
     }
 
@@ -179,7 +179,7 @@ class AdminController extends Controller
 
             $user->UserCity = request("UserCity");
 
-            $user->UserZipCode = request("UserZipCode");
+            $user->UserZipCode = preg_replace('/\s+/', '', request("UserZipCode"));
 
             $user->UserType = 3;
 
@@ -201,6 +201,16 @@ class AdminController extends Controller
 
         
     }
+
+      public function showSuccessPage(Request $request)
+    {
+
+        return view("tsadmin.thankyou", array("status"=>"success"));
+
+
+    }
+
+    
 
 
 }
