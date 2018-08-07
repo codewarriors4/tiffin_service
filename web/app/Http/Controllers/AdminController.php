@@ -61,7 +61,7 @@ class AdminController extends Controller
         $status = User::where('id', $user_id)->update(['isActive' => 1]);
 
         $user_details     = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('users.id', $user_id)->first();
-        $subs_notify      = \Config::get('constants.options.New_susbcriber_notify');
+        $subs_notify      = \Config::get('constants.options.Admin_approval_notify');
         $send_push_notifn = 0; // 0:send notify 1: dont send
 
         $fcmtokens = UserMobInfo::where('userID', $user_id)->select("fcmtoken")->get();
