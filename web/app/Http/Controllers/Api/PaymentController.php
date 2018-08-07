@@ -138,7 +138,7 @@ class PaymentController extends Controller
             $hst           = request('hst');
             $total_cost    = request('total');
             $subsPackageId = request('HMPid');
-            $admin_approval_notify = \Config::get('constants.options.Admin_approval_notify');
+            $admin_approval_notify = \Config::get('constants.options.New_susbcriber_notify');
             $send_push_notifn = 0; // 0:send notify 1: dont send
 
             $user_details = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('homemaker.HMId', $homemaker_id)->first();
