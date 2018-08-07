@@ -33,9 +33,16 @@
 
     function modify_request(id){
 
-    //  alert(id);
+      var domain = "http://52.14.64.177/";
+
+      if(window.location.hostname == "localhost"){
+
+        domain = "http://localhost/tiffin_service/web/public/";
+      }
+      
       var domain = window.location.hostname
       var url = domain+"/approve";
+      alert(url);
       var formData = {id:id};
 
       $.get( url+'/'+id, function( data ) {

@@ -192,7 +192,6 @@ class UserSubscriberController extends Controller
                 $driver = User::join('driver_users', 'driver_users.driverUserIdFk', '=', 'users.id')->where("paymentIdFk",$record->PId)->first();
 
 
-
                 $personal_ratings = Reviews::where("HomeMakerID", $record->HMId)
                 ->where("TiffinSeekerId", $record->TiffinSeekerId)->first();
 
