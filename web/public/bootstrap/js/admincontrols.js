@@ -42,7 +42,7 @@
       
     //  var domain = window.location.hostname
       var url = domain+"/approve";
-      alert(url);
+     // alert(url);
       var formData = {id:id};
 
       $.get( url+'/'+id, function( data ) {

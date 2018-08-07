@@ -105,7 +105,7 @@ Manage Users
 
                      <td class="center">
 
-                            @if($user->isActive==0 && $user->UserType == 1 )s
+                            @if($user->isActive==0 && $user->UserType == 1 )
 
                             <button id ="{{$user->id}}" class="btn btn-primary custom-width" value="sdasdasd" onclick="modify_request({{$user->id}})">Approve</button>
                             @endif
