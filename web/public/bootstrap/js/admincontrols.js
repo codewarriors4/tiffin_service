@@ -40,7 +40,7 @@
         domain = "http://localhost/tiffin_service/web/public/";
       }
       
-      var domain = window.location.hostname
+    //  var domain = window.location.hostname
       var url = domain+"/approve";
       alert(url);
       var formData = {id:id};
