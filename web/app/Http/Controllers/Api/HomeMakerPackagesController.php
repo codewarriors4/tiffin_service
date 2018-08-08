@@ -176,26 +176,26 @@ class HomeMakerPackagesController extends Controller
                 "HMPDesc.required"                   => "The package description is required",
                 "HMPCost.required"                   => "The package cost is required",
                 "HMPCost.numeric"                    => "Please enter only numeric value for cost",
-                "HMPImage.required"                  => "Please upload a pic for your menu",
+             /*   "HMPImage.required"                  => "Please upload a pic for your menu",
                 "HMPImage.image"                     => "Please upload only image files",
-                "HMPImage.mimes"                     => "Please upload only image files of types jpg,jpeg,png",
+                "HMPImage.mimes"                     => "Please upload only image files of types jpg,jpeg,png",*/
             );
 
             $this->validate($request, [
                 'HMPName'  => 'required',
                 'HMPDesc'  => 'required',
                 'HMPCost'  => 'required|numeric',
-                'HMPImage' => 'required|mimes:jpg,jpeg,png',
+             //   'HMPImage' => 'required|mimes:jpg,jpeg,png',
             ], $messages);
 
             $package_update = HomeMakerPackages::where('HMPId', $homemaker_package_id)->update(['HMPName' => request('HMPName'), 'HMPDesc' => request('HMPDesc'), 'HMPCost' => request('HMPCost')]);
 
-            if ($request->hasFile('HMPImage')) {
+            if ($request->hasFile('file')) {
 
                 #$dir=.$request->user()->id;
-                $request->file('HMPImage')->storeAs('public/upload/' . $request->user()->id . '/packages/' . $homemaker_package_id, 'productimage' . '.' . $request->file('HMPImage')->getClientOriginalExtension());
+                $request->file->storeAs('public/upload/' . $request->user()->id . '/packages/' . $homemaker_package_id, 'productimage' . '.' . $request->file->getClientOriginalExtension());
 
-                $image = 'productimage.' . $request->file('HMPImage')->getClientOriginalExtension();
+                $image = 'productimage.' . $request->file->getClientOriginalExtension();
 
                 $homemaker = HomeMakerPackages::where('HMPId', $homemaker_package_id)->update(['HMPImage' => $image]);
 
