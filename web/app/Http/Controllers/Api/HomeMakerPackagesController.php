@@ -132,7 +132,7 @@ class HomeMakerPackagesController extends Controller
                     foreach ($fcmtokens as $key => $token) {
                         array_push($device_token_array, $token->fcmtoken);
                     }
-                    dd($device_token_array);
+                  //  dd($device_token_array);
 
 
 
