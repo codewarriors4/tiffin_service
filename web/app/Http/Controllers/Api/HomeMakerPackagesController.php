@@ -52,7 +52,8 @@ class HomeMakerPackagesController extends Controller
             ]);
             $new_pkg_id = $package_create->HMPId;
 
-             dd($request->hasFile('HMPImage'));
+           return response()->json($request, 200);
+
 
             if ($request->hasFile('HMPImage')) {
 
