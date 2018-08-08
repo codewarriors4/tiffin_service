@@ -7,6 +7,10 @@ use TiffinService\HomeMaker;
 use TiffinService\HomeMakerPackages;
 use TiffinService\Http\Controllers\Controller;
 use TiffinService\User;
+use TiffinService\UserFCMSettings;
+use TiffinService\UserMobInfo;
+
+
 
 class HomeMakerPackagesController extends Controller
 {
@@ -48,6 +52,8 @@ class HomeMakerPackagesController extends Controller
             ]);
             $new_pkg_id = $package_create->HMPId;
 
+            //  dd( $new_pkg_id);
+
             if ($request->hasFile('HMPImage')) {
 
                 #$dir=.$request->user()->id;
@@ -59,57 +65,82 @@ class HomeMakerPackagesController extends Controller
 
             }
 
-           // $this->sendFCMOnPackageCreate($home_maker);
-
-            
+            $this->sendFCMOnPackageCreate($home_maker);
 
             return response()->json(['status' => 'success'], 200);
 
         } catch (\Exception $e) {
 
-        //    dd($e);
+            //    dd($e);
 
             //   return response()->json(['status' => 'successsss'], 203);
 
-            return response()->json($e->errors(), 203);
+            // return response()->json($e->errors(), 203);
 
         }
 
     }
 
-
-    public function sendFCMOnPackageCreate($homemakerid)
+    public function sendFCMOnPackageCreate($homemaker)
     {
-
         $subs_notify      = \Config::get('constants.options.new_package_created');
         $send_push_notifn = 0; // 0:send notify 1: dont send
 
-        $fcmtokens = UserMobInfo::where('userID', $user_id)->select("fcmtoken")->get();
-
-        $device_token_array = array();
-
-
-         $subs = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
-                ->join('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
-                ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
-                ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
-                ->where('subscription.HomeMakerId', $homemakerid)->orderBy('subscription.created_at', 'desc')->get();
+        $subs = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
+            ->join('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
+            ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
+            ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
+            ->where('subscription.HomeMakerId', $homemaker->HMId)->orderBy('subscription.created_at', 'desc')->get();
+        
 
 
-        if($subs->count()>0){
-            foreach ($subs as $key => $sub) {
-                
+
+        if ($subs->count() > 0) {
+            foreach ($subs as $sub) {
+
+                $fcmtokens          = UserMobInfo::where('userID', $sub->id)->select("fcmtoken")->get();
+                $device_token_array = array();
+                $getfcmsettings     = UserFCMSettings::where("UserIdFk", $sub->id)->where("MFCMSIdFk", $subs_notify)->select("status")->first();
+
+                if ($getfcmsettings == null) {
+                    $send_push_notifn = 0;
+                } else if ($getfcmsettings->status == 0) {
+                    $send_push_notifn = 0;
+                } else {
+                    $send_push_notifn = 1;
+                }
+
+                if ($fcmtokens->count() > 0 && $send_push_notifn == 0) {
+
+                    foreach ($fcmtokens as $key => $token) {
+                        array_push($device_token_array, $token->fcmtoken);
+                    }
+
+                    $title   = "New menu alert";
+                    $body    = "Your Chef"." ".\Auth::user()->UserFname." "."added a new menu !!";
+                    $feedbck = \PushNotification::setService('fcm')
+                        ->setMessage([
+                            'notification' => [
+                                'title' => $title,
+                                'body'  => $body,
+                                'sound' => 'default',
+                            ],
+                            'data'         => [
+                                'notificationtype' => 'new_package_created',
+                                'extraPayLoad2' => 'value2',
+                            ],
+                        ])
+                        ->setApiKey('AAAAoeIud7w:APA91bGsANVi6YE_HfJOODY6nwnBVCLWMx4Suinb6tux6R6jePDA-qX2mpNcGanlEQusyqnZ1PaZjFePkDDla6PUxgF1KZVm3WTPdbq7wYGfY9LPidiHEPCbTtQFT89bDMs5GotOb63cNYll-RG1Kd7OFJE47T1I7w')
+                        ->setDevicesToken($device_token_array)
+                        ->send()
+                        ->getFeedback();
+
+                }
 
             }
         }
 
-
-
-
-
     }
-
-
 
     public function HMPUpdate(Request $request)
     {
@@ -214,16 +245,14 @@ class HomeMakerPackagesController extends Controller
             $home_maker_packages = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')
                 ->join('homemakerpackages', 'homemakerpackages.HomeMakerId', '=', 'homemaker.HMId')->where('HMPId', $homemaker_package_id)->first();
             //    dd($home_maker_packages);
-                    
-              $image_file =    \Storage::get('public/upload/'.$home_maker_packages->id.'/packages/'.$homemaker_package_id.'/'.$home_maker_packages->HMPImage);        
 
-
+            $image_file = \Storage::get('public/upload/' . $home_maker_packages->id . '/packages/' . $homemaker_package_id . '/' . $home_maker_packages->HMPImage);
 
             $home_maker_packages->prod_encoded_img = base64_encode($image_file);
-        //    dd($home_maker_packages->prod_encoded_img);
-            $home_maker_packages->hst   =number_format((float)(0.02 * $home_maker_packages->HMPCost), 2, '.', '') ;
-            $total = $home_maker_packages->hst + $home_maker_packages->HMPCost;
-            $home_maker_packages->total = number_format((float)$total, 2, '.', '');
+            //    dd($home_maker_packages->prod_encoded_img);
+            $home_maker_packages->hst   = number_format((float) (0.02 * $home_maker_packages->HMPCost), 2, '.', '');
+            $total                      = $home_maker_packages->hst + $homess_maker_packages->HMPCost;
+            $home_maker_packages->total = number_format((float) $total, 2, '.', '');
 
             return response()->json(['home_maker_packages' => $home_maker_packages], 200);
 
