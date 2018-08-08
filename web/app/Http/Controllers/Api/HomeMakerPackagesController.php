@@ -89,22 +89,31 @@ class HomeMakerPackagesController extends Controller
         $subs = \DB::table('users')
                 ->leftJoin('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
                 ->leftJoin('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
-                ->leftJoin('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
-                ->leftJoin('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
-                ->where('subscription.HomeMakerId', $homemaker->HMId)->groupBy('name')->orderBy('subscription.created_at', 'desc')->get();  
+                ->where('subscription.HomeMakerId', $homemaker->HMId)->get();
+
 
 /*        $subs = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
             ->join('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
             ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
             ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
             ->where('subscription.HomeMakerId', $homemaker->HMId)->select('users.id')->distinct()->orderBy('subscription.created_at', 'desc')->get();   */ 
-            dd($subs);
+           
 
 
 
         if ($subs->count() > 0) {
 
+            $unique_id = array(); //used to chk only unique user ids are taken from above join
+
             foreach ($subs as $sub) {
+                if(in_array($sub->id, $unique_id)){
+                    continue;
+                }else{
+                array_push($unique_id,$sub->id);
+
+
+                }
+
 
                 $fcmtokens          = UserMobInfo::where('userID', $sub->id)->select("fcmtoken")->get();
                 $device_token_array = array();
@@ -123,6 +132,7 @@ class HomeMakerPackagesController extends Controller
                     foreach ($fcmtokens as $key => $token) {
                         array_push($device_token_array, $token->fcmtoken);
                     }
+                    dd($device_token_array);
 
 
 
