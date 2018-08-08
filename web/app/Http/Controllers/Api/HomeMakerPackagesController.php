@@ -52,15 +52,15 @@ class HomeMakerPackagesController extends Controller
             ]);
             $new_pkg_id = $package_create->HMPId;
 
-           return response()->json($request, 200);
+          // return response()->json($request, 200);
 
 
-            if ($request->hasFile('HMPImage')) {
+            if ($request->hasFile('file')) {
 
                 #$dir=.$request->user()->id;
-                $request->file('HMPImage')->storeAs('public/upload/' . $request->user()->id . '/packages/' . $new_pkg_id, 'productimage' . '.' . $request->file('HMPImage')->getClientOriginalExtension());
+                $request->file->storeAs('public/upload/' . $request->user()->id . '/packages/' . $new_pkg_id, 'productimage' . '.' . $request->file->getClientOriginalExtension());
 
-                $image = 'productimage.' . $request->file('HMPImage')->getClientOriginalExtension();
+                $image = 'productimage.' . $request->file->getClientOriginalExtension();
 
                 $homemaker = HomeMakerPackages::where('HMPId', $new_pkg_id)->update(['HMPImage' => $image]);
 
