@@ -24,7 +24,7 @@ class HomeMakerPackagesController extends Controller
 
             //dd($user_id);
 
-            $messages = array("HMPName.required" => "The Package name is required",
+/*            $messages = array("HMPName.required" => "The Package name is required",
                 "HMPDesc.required"                   => "The package description is required",
                 "HMPCost.required"                   => "The package cost is required",
                 "HMPCost.numeric"                    => "Please enter only numeric value for cost",
@@ -38,7 +38,7 @@ class HomeMakerPackagesController extends Controller
                 'HMPDesc'  => 'required',
                 'HMPCost'  => 'required|numeric',
                 'HMPImage' => 'required|mimes:jpg,jpeg,png',
-            ], $messages);
+            ], $messages);*/
 
             $home_maker = HomeMaker::where('UserId', $user_id)->first();
 
