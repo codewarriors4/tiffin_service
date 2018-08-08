@@ -272,7 +272,7 @@ class HomeMakerPackagesController extends Controller
             $home_maker_packages->prod_encoded_img = base64_encode($image_file);
             //    dd($home_maker_packages->prod_encoded_img);
             $home_maker_packages->hst   = number_format((float) (0.02 * $home_maker_packages->HMPCost), 2, '.', '');
-            $total                      = $home_maker_packages->hst + $homess_maker_packages->HMPCost;
+            $total                      = $home_maker_packages->hst + $home_maker_packages->HMPCost;
             $home_maker_packages->total = number_format((float) $total, 2, '.', '');
 
             return response()->json(['home_maker_packages' => $home_maker_packages], 200);
