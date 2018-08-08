@@ -75,7 +75,7 @@ class HomeMakerPackagesController extends Controller
 
             //   return response()->json(['status' => 'successsss'], 203);
 
-            // return response()->json($e->errors(), 203);
+             return response()->json($e->errors(), 203);
 
         }
 
