@@ -149,6 +149,8 @@ class UserProfileController extends Controller
             $users->UserZipCode     = request('UserZipCode');
             $users->UserPhone       = request('UserPhone');
             $users->UserCompanyName = request('UserCompanyName');
+                        $users->UserCompanyName = request('UserCompanyName');
+
             $users->save();
 
 //set the expiry date fpr license
@@ -169,7 +171,12 @@ class UserProfileController extends Controller
             $authid = \Auth::user()->id;
 
             $users = User::join('homemaker', 'homemaker.UserId', '=', 'users.id')->where('id', $authid)->first();
-            return response()->json($users, 200);
+
+            $image_file = \Storage::get('public/upload/' . $authid ."/". $users->HMFoodLicense);
+
+            $users->prod_encoded_img = base64_encode($image_file);           
+
+             return response()->json($users, 200);
             #return response()->json(['name' => 'ok'],200);
         } catch (Exception $e) {
             return response()->json(['status' => 'amit_suks'], 203);

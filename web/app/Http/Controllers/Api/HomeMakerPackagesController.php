@@ -86,16 +86,24 @@ class HomeMakerPackagesController extends Controller
         $subs_notify      = \Config::get('constants.options.new_package_created');
         $send_push_notifn = 0; // 0:send notify 1: dont send
 
-        $subs = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
+        $subs = \DB::table('users')
+                ->leftJoin('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
+                ->leftJoin('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
+                ->leftJoin('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
+                ->leftJoin('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
+                ->where('subscription.HomeMakerId', $homemaker->HMId)->groupBy('name')->orderBy('subscription.created_at', 'desc')->get();  
+
+/*        $subs = User::join('tiffinseeker', 'tiffinseeker.UserId', '=', 'users.id')
             ->join('subscription', 'subscription.TiffinSeekerId', '=', 'tiffinseeker.TSid')
             ->join('homemakerpackages', 'homemakerpackages.HMPId', '=', 'subscription.HMPid')
             ->join('homemaker', 'homemaker.HMId', '=', 'subscription.HomeMakerId')
-            ->where('subscription.HomeMakerId', $homemaker->HMId)->orderBy('subscription.created_at', 'desc')->get();
-        
+            ->where('subscription.HomeMakerId', $homemaker->HMId)->select('users.id')->distinct()->orderBy('subscription.created_at', 'desc')->get();   */ 
+            dd($subs);
 
 
 
         if ($subs->count() > 0) {
+
             foreach ($subs as $sub) {
 
                 $fcmtokens          = UserMobInfo::where('userID', $sub->id)->select("fcmtoken")->get();
@@ -115,6 +123,8 @@ class HomeMakerPackagesController extends Controller
                     foreach ($fcmtokens as $key => $token) {
                         array_push($device_token_array, $token->fcmtoken);
                     }
+
+
 
                     $title   = "New menu alert";
                     $body    = "Your Chef"." ".\Auth::user()->UserFname." "."added a new menu !!";
