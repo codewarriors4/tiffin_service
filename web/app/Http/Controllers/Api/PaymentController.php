@@ -174,6 +174,8 @@ class PaymentController extends Controller
             $subscription->HMPid          = $subsPackageId;
             $subscription->save();
 
+            $subscription_id = $subscription->SubId;
+
             $payment = new Payment;
 
             $payment->PAmt        = $total_cost;
@@ -282,8 +284,8 @@ class PaymentController extends Controller
                             'sound' => 'default',
                         ],
                         'data'         => [
-                            'extraPayLoad1' => 'value1',
-                            'extraPayLoad2' => 'value2',
+                            'notificationtype' => 'New_susbcriber_notify',
+                            'SubId' => $subscription_id,
                         ],
                     ])
                     ->setApiKey('AAAAoeIud7w:APA91bGsANVi6YE_HfJOODY6nwnBVCLWMx4Suinb6tux6R6jePDA-qX2mpNcGanlEQusyqnZ1PaZjFePkDDla6PUxgF1KZVm3WTPdbq7wYGfY9LPidiHEPCbTtQFT89bDMs5GotOb63cNYll-RG1Kd7OFJE47T1I7w')

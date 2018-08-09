@@ -62,6 +62,11 @@ Route::middleware('auth:api')->group(function(){
 /*		Route::post('tiffinseekersubscribermonthly','Api\UserSubscriberController@tiffinseekersubscriberviewmonthly');
 		Route::post('tiffinseekersubscriber','Api\UserSubscriberController@tiffinseekersubscriberviewdaily'); */
 
+		Route::post('viewsubdetails','Api\UserSubscriberController@hmViewSubscriptionDetails')->name('hmViewSubscriptionDetails');
+
+
+
+
 
 	/*Homemaker Package*/
 
