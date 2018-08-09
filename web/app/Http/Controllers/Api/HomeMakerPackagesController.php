@@ -66,7 +66,7 @@ class HomeMakerPackagesController extends Controller
 
             }
 
-            $this->sendFCMOnPackageCreate($home_maker);
+            $this->sendFCMOnPackageCreate($home_maker,$new_pkg_id);
 
             return response()->json(['status' => 'success'], 200);
 
@@ -82,7 +82,7 @@ class HomeMakerPackagesController extends Controller
 
     }
 
-    public function sendFCMOnPackageCreate($homemaker)
+    public function sendFCMOnPackageCreate($homemaker,$new_pkg_id)
     {
         $subs_notify      = \Config::get('constants.options.new_package_created');
         $send_push_notifn = 0; // 0:send notify 1: dont send
@@ -148,7 +148,7 @@ class HomeMakerPackagesController extends Controller
                             ],
                             'data'         => [
                                 'notificationtype' => 'new_package_created',
-                                'extraPayLoad2' => 'value2',
+                                'HMPId' => $new_pkg_id,
                             ],
                         ])
                         ->setApiKey('AAAAoeIud7w:APA91bGsANVi6YE_HfJOODY6nwnBVCLWMx4Suinb6tux6R6jePDA-qX2mpNcGanlEQusyqnZ1PaZjFePkDDla6PUxgF1KZVm3WTPdbq7wYGfY9LPidiHEPCbTtQFT89bDMs5GotOb63cNYll-RG1Kd7OFJE47T1I7w')
@@ -280,7 +280,6 @@ class HomeMakerPackagesController extends Controller
         } catch (Exception $e) {
 
             return response()->json(['status' => 'failed'], 203);
-
         }
 
     }
